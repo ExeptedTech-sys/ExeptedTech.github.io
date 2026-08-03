@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>ExeptedTech Luvia Company Tm | Desarrollo Web, Apps Móviles & Videojuegos</title>
+    <meta name="description" content="Sitio oficial de ExeptedTech Luvia Company Tm. Desarrollo de páginas web profesionales, apps móviles, videojuegos Android y suscripciones de aplicaciones.">
+    <meta name="keywords" content="ExeptedTech, Luvia Company, paginas web, desarrollo android, apps moviles, videojuegos, suscripciones">
+    
+    <!-- Google Fonts & FontAwesome -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&family=Orbitron:wght@600;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            400: '#38bdf8',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            900: '#0c4a6e',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        display: ['Orbitron', 'Plus Jakarta Sans', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        * {
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+        input, select, textarea, [contenteditable="true"] {
+            user-select: text;
+            -webkit-user-select: text;
+        }
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #060911;
+            color: #f8fafc;
+            overflow-x: hidden;
+            touch-action: manipulation;
+            padding-top: env(safe-area-inset-top);
+            padding-bottom: env(safe-area-inset-bottom);
+        }
+        
+        /* High-Tech Metallic Chrome Text Effects */
+        .chrome-text {
+            background: linear-gradient(180deg, #ffffff 0%, #e2e8f0 40%, #94a3b8 50%, #f8fafc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.8));
+        }
+        .neon-blue-text {
+            background: linear-gradient(135deg, #38bdf8 0%, #0284c7 60%, #0369a1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 12px rgba(56, 189, 248, 0.6));
+        }
+
+        .glass-panel {
+            background: rgba(10, 16, 30, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(56, 189, 248, 0.18);
+        }
+        .glass-card {
+            background: rgba(15, 23, 42, 0.65);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .glass-card:hover {
+            border-color: rgba(56, 189, 248, 0.6);
+            transform: translateY(-6px) scale(1.01);
+            box-shadow: 0 20px 40px -15px rgba(2, 132, 199, 0.35);
+        }
+        .gradient-text {
+            background: linear-gradient(135deg, #38bdf8 0%, #818cf8 50%, #c084fc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .shimmer-button {
+            background: linear-gradient(90deg, #0284c7 0%, #6366f1 50%, #0284c7 100%);
+            background-size: 200% 100%;
+            animation: shimmer 3s linear infinite;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% { filter: drop-shadow(0 0 15px rgba(2, 132, 199, 0.6)); }
+            50% { filter: drop-shadow(0 0 32px rgba(56, 189, 248, 0.95)); }
+        }
+        .animate-pulse-glow {
+            animation: pulseGlow 3s infinite ease-in-out;
+        }
+
+        /* Mobile Scrollbar Adjustments */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #060911;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1e293b;
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #0284c7;
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-cyan-500 selection:text-white">
+
+    <nav class="fixed top-0 left-0 right-0 z-50 glass-panel border-b border-slate-800/80">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                
+                <!-- BRAND LOGO (EXEPTEDTECH LUVIA COMPANY TM) -->
+                <a href="#" class="flex items-center space-x-3 group">
+                    <div class="w-12 h-12 relative flex items-center justify-center group-hover:scale-105 transition-transform duration-300">
+                        <!-- High-Tech Metallic 'ET' Shield SVG Logo -->
+                        <svg viewBox="0 0 200 200" class="w-full h-full animate-pulse-glow" xmlns="http://www.w3.org/2000/svg">
+                            <defs>
+                                <linearGradient id="chromeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="#ffffff"/>
+                                    <stop offset="40%" stop-color="#cbd5e1"/>
+                                    <stop offset="70%" stop-color="#94a3b8"/>
+                                    <stop offset="100%" stop-color="#475569"/>
+                                </linearGradient>
+                                <linearGradient id="neonCyanGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="#38bdf8"/>
+                                    <stop offset="50%" stop-color="#0284c7"/>
+                                    <stop offset="100%" stop-color="#0369a1"/>
+                                </linearGradient>
+                                <filter id="glowEffect" x="-20%" y="-20%" width="140%" height="140%">
+                                    <feGaussianBlur stdDeviation="4" result="blur" />
+                                    <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+                                </filter>
+                            </defs>
+                            <!-- Outer Orbital Metallic Ring -->
+                            <path d="M 40 100 A 60 60 0 1 1 160 100 A 60 60 0 0 1 70 155" fill="none" stroke="url(#chromeGrad)" stroke-width="7" stroke-linecap="round"/>
+                            <path d="M 150 50 A 60 60 0 0 1 160 100" fill="none" stroke="url(#neonCyanGrad)" stroke-width="9" stroke-linecap="round" filter="url(#glowEffect)"/>
+                            <!-- Metallic Stylized 'E' -->
+                            <path d="M 55 65 L 105 65 L 90 85 L 75 85 L 75 95 L 100 95 L 88 112 L 75 112 L 75 135 L 115 135 L 100 150 L 55 150 Z" fill="url(#chromeGrad)"/>
+                            <!-- Glowing Electric Cyan Swoosh 'T' -->
+                            <path d="M 95 65 C 130 60 165 70 170 80 C 145 88 125 105 110 150 C 122 120 140 100 160 92 C 140 92 115 108 102 145 L 88 145 C 105 105 125 82 155 75 L 95 75 Z" fill="url(#neonCyanGrad)" filter="url(#glowEffect)"/>
+                        </svg>
+                    </div>
+                    <div class="flex flex-col">
+                        <div class="flex items-center space-x-1">
+                            <span class="text-xl font-extrabold tracking-tight chrome-text font-display">Exepted</span>
+                            <span class="text-xl font-extrabold tracking-tight neon-blue-text font-display">Tech</span>
+                        </div>
+                        <span class="text-[9px] font-bold text-slate-300 tracking-[0.2em] uppercase leading-none mt-0.5">LUVIA COMPANY TM</span>
+                    </div>
+                </a>
+
+                <!-- Desktop Navigation Links -->
+                <div class="hidden lg:flex items-center space-x-6 text-sm font-medium text-slate-300">
+                    <a href="#suscripciones" class="hover:text-white transition-colors">Suscripciones</a>
+                    <a href="#juegos" class="hover:text-white transition-colors">Juegos Android</a>
+                    <a href="#web" class="hover:text-white transition-colors">Páginas Web</a>
+                    <a href="#apps" class="hover:text-white transition-colors">Apps Móviles</a>
+                    <a href="#videojuegos" class="hover:text-white transition-colors">Dev Juegos</a>
+                    <a href="#nosotros" class="hover:text-white transition-colors">Nosotros</a>
+                </div>
+
+                <!-- Desktop Action Buttons -->
+                <div class="hidden md:flex items-center space-x-3">
+                    <a href="#cotizador" class="px-4 py-2.5 rounded-xl text-xs font-semibold bg-slate-800/90 text-slate-200 border border-slate-700 hover:bg-slate-700 hover:text-white transition-all">
+                        <i class="fa-solid fa-calculator mr-1.5 text-brand-400"></i>Cotizador
+                    </a>
+                    <button onclick="requestWhatsApp('Información General ExeptedTech', 'Hola, solicito información general sobre sus servicios. Vengo de su página web exeptedtech.xyz.')" class="px-5 py-2.5 rounded-xl text-xs font-bold text-white shimmer-button shadow-lg shadow-brand-600/25 transition-all transform hover:-translate-y-0.5 active:scale-95 flex items-center gap-2">
+                        <i class="fa-brands fa-whatsapp text-base"></i>
+                        <span>Contactar Asesor</span>
+                    </button>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="lg:hidden flex items-center space-x-2">
+                    <a href="#cotizador" class="px-3 py-1.5 rounded-lg text-xs font-medium bg-brand-600/20 text-brand-300 border border-brand-500/30">
+                        <i class="fa-solid fa-calculator"></i>
+                    </a>
+                    <button id="mobile-menu-btn" onclick="toggleMobileMenu()" class="p-2.5 rounded-xl bg-slate-800 text-slate-300 hover:text-white focus:outline-none active:bg-slate-700">
+                        <i class="fa-solid fa-bars text-xl" id="menu-icon"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Drawer Navigation -->
+        <div id="mobile-menu" class="hidden lg:hidden bg-slate-950/95 backdrop-blur-xl border-b border-slate-800 px-4 pt-3 pb-6 space-y-3 shadow-2xl">
+            <a href="#suscripciones" onclick="toggleMobileMenu()" class="block py-2.5 px-3 rounded-xl text-slate-200 hover:bg-slate-800 text-sm font-medium"><i class="fa-solid fa-gem text-brand-400 mr-2.5"></i>Suscripciones Apps</a>
+            <a href="#juegos" onclick="toggleMobileMenu()" class="block py-2.5 px-3 rounded-xl text-slate-200 hover:bg-slate-800 text-sm font-medium"><i class="fa-solid fa-gamepad text-purple-400 mr-2.5"></i>Juegos Android</a>
+            <a href="#web" onclick="toggleMobileMenu()" class="block py-2.5 px-3 rounded-xl text-slate-200 hover:bg-slate-800 text-sm font-medium"><i class="fa-solid fa-code text-cyan-400 mr-2.5"></i>Páginas Web Profesionales</a>
+            <a href="#apps" onclick="toggleMobileMenu()" class="block py-2.5 px-3 rounded-xl text-slate-200 hover:bg-slate-800 text-sm font-medium"><i class="fa-solid fa-mobile-screen-button text-amber-400 mr-2.5"></i>Apps Móviles</a>
+            <a href="#videojuegos" onclick="toggleMobileMenu()" class="block py-2.5 px-3 rounded-xl text-slate-200 hover:bg-slate-800 text-sm font-medium"><i class="fa-solid fa-vr-cardboard text-red-400 mr-2.5"></i>Dev Videojuegos</a>
+            <a href="#nosotros" onclick="toggleMobileMenu()" class="block py-2.5 px-3 rounded-xl text-slate-200 hover:bg-slate-800 text-sm font-medium"><i class="fa-solid fa-user-gear text-emerald-400 mr-2.5"></i>Acerca de Nosotros</a>
+            <a href="#cotizador" onclick="toggleMobileMenu()" class="block py-2.5 px-3 rounded-xl text-brand-300 bg-brand-900/40 border border-brand-500/30 text-sm font-semibold"><i class="fa-solid fa-calculator mr-2"></i>Cotizador Express</a>
+            <div class="pt-2">
+                <button onclick="toggleMobileMenu(); requestWhatsApp('Contacto Móvil Directo', 'Hola, solicito información, vengo de su web exeptedtech.xyz.')" class="w-full py-3.5 rounded-xl text-center text-sm font-bold bg-emerald-600 hover:bg-emerald-500 text-white shadow-lg shadow-emerald-600/30 flex items-center justify-center gap-2">
+                    <i class="fa-brands fa-whatsapp text-lg"></i>
+                    <span>Escribir por WhatsApp (+52 55 6614 7938)</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <header class="relative pt-36 pb-20 md:pt-44 md:pb-32 overflow-hidden">
+        <!-- Ambient Glowing Background Elements -->
+        <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] sm:w-[700px] h-[500px] sm:h-[700px] bg-gradient-to-tr from-brand-600/20 via-purple-600/20 to-cyan-500/10 rounded-full blur-3xl pointer-events-none -z-10 animate-pulse-glow"></div>
+        <div class="absolute top-1/3 right-10 w-72 h-72 bg-cyan-500/10 rounded-full blur-2xl pointer-events-none -z-10"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+            
+            <!-- Company Shield Badge -->
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-900/90 border border-brand-500/30 text-xs font-bold text-brand-300 mb-8 shadow-xl">
+                <span class="flex h-2.5 w-2.5 rounded-full bg-emerald-400 animate-ping"></span>
+                <span>ExeptedTech Luvia Company Tm &bull; Ingeniería & Marketing Digital</span>
+            </div>
+
+            <!-- Main Heading -->
+            <h1 class="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-white mb-6 leading-tight max-w-5xl mx-auto font-display">
+                Soluciones Tecnológicas de Alta Ingeniería <span class="gradient-text">Para Tu Negocio</span>
+            </h1>
+
+            <p class="text-slate-300 max-w-3xl mx-auto text-base sm:text-xl font-normal leading-relaxed mb-10">
+                Páginas web profesionales, desarrollo de aplicaciones móviles, videojuegos Android y licenciamiento de software premium. Diseñado por ingenieros expertos para impulsar tus ventas al máximo.
+            </p>
+
+            <!-- Primary Action Buttons -->
+            <div class="flex flex-col sm:flex-row justify-center items-center gap-4 max-w-md mx-auto">
+                <button onclick="requestWhatsApp('Consulta Directa', 'Hola, solicito información, vengo de su web exeptedtech.xyz.')" class="w-full sm:w-auto px-8 py-4 rounded-2xl font-bold text-sm bg-emerald-600 hover:bg-emerald-500 text-white shadow-xl shadow-emerald-600/30 transition-all transform hover:-translate-y-0.5 active:scale-95 flex items-center justify-center gap-3">
+                    <i class="fa-brands fa-whatsapp text-lg"></i>
+                    <span>Contactar por WhatsApp</span>
+                </button>
+                <a href="#cotizador" class="w-full sm:w-auto px-8 py-4 rounded-2xl font-bold text-sm bg-slate-800/90 hover:bg-slate-700 text-slate-100 border border-slate-700 transition-all flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-calculator text-brand-400"></i>
+                    <span>Cotizador Express</span>
+                </a>
+            </div>
+
+            <!-- Trust Badges Bar -->
+            <div class="mt-16 pt-8 border-t border-slate-800/80 grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 max-w-4xl mx-auto text-center">
+                <div class="p-4 rounded-2xl bg-slate-900/50 border border-slate-800">
+                    <p class="text-2xl font-black text-white font-display">100%</p>
+                    <p class="text-xs text-slate-400 font-medium">Garantía Profesional</p>
+                </div>
+                <div class="p-4 rounded-2xl bg-slate-900/50 border border-slate-800">
+                    <p class="text-2xl font-black text-brand-400 font-display">24/7</p>
+                    <p class="text-xs text-slate-400 font-medium">Atención WhatsApp</p>
+                </div>
+                <div class="p-4 rounded-2xl bg-slate-900/50 border border-slate-800">
+                    <p class="text-2xl font-black text-purple-400 font-display">iOS & Android</p>
+                    <p class="text-xs text-slate-400 font-medium">Optimización Multiplataforma</p>
+                </div>
+                <div class="p-4 rounded-2xl bg-slate-900/50 border border-slate-800">
+                    <p class="text-2xl font-black text-cyan-400 font-display">Express</p>
+                    <p class="text-xs text-slate-400 font-medium">Entrega Rápida y Segura</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section id="suscripciones" class="py-20 relative bg-slate-950/60">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-xs font-extrabold text-brand-400 tracking-wider uppercase bg-brand-500/10 px-3.5 py-1.5 rounded-full border border-brand-500/20">Sección 1</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-white mt-3 mb-4 font-display">Venta de Suscripciones de Apps</h2>
+                <p class="text-slate-400 text-sm sm:text-base">Acceso verificado a licencias premium, herramientas digitales optimizadas y servicios SaaS para potenciar tu productividad y entretenimiento.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- App Subscription Item 1 -->
+                <div class="glass-card p-6 rounded-3xl flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="w-12 h-12 rounded-2xl bg-brand-500/10 text-brand-400 flex items-center justify-center text-2xl border border-brand-500/20">
+                                <i class="fa-solid fa-briefcase"></i>
+                            </div>
+                            <span class="px-3 py-1 text-xs font-bold rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Disponible</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-2 font-display">Productividad & Oficina Pro</h3>
+                        <p class="text-slate-400 text-xs mb-4">Suscripciones premium para aplicaciones de gestión, diseño, utilidades de sistema y automatización de procesos.</p>
+                        <ul class="text-xs text-slate-300 space-y-2.5 mb-6">
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-brand-400"></i> Cuentas verificadas y garantizadas</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-brand-400"></i> Soporte técnico permanente</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-brand-400"></i> Activación express inmediata</li>
+                        </ul>
+                    </div>
+                    <button onclick="requestWhatsApp('Suscripción Productividad Pro', 'Hola ExeptedTech, solicito información sobre la suscripción de Productividad Pro. Vengo de su página web exeptedtech.xyz.')" class="w-full py-3 rounded-xl font-bold text-xs bg-slate-800 hover:bg-brand-600 text-white border border-slate-700 hover:border-brand-500 transition-all flex items-center justify-center gap-2">
+                        <i class="fa-brands fa-whatsapp text-sm text-emerald-400"></i> Solicitar Licencia
+                    </button>
+                </div>
+
+                <!-- App Subscription Item 2 -->
+                <div class="glass-card p-6 rounded-3xl flex flex-col justify-between border-brand-500/40 relative">
+                    <div class="absolute -top-3.5 right-6 px-3.5 py-1 rounded-full bg-gradient-to-r from-brand-500 to-purple-600 text-[10px] font-black text-white uppercase tracking-wider shadow-lg">
+                        Destacado
+                    </div>
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="w-12 h-12 rounded-2xl bg-purple-500/10 text-purple-400 flex items-center justify-center text-2xl border border-purple-500/20">
+                                <i class="fa-solid fa-wand-magic-sparkles"></i>
+                            </div>
+                            <span class="px-3 py-1 text-xs font-bold rounded-full bg-purple-500/10 text-purple-400 border border-purple-500/20">VIP</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-2 font-display">Packs Multimedia & IA Pro</h3>
+                        <p class="text-slate-400 text-xs mb-4">Acceso exclusivo a plataformas de edición de video, creación de contenido con inteligencia artificial y diseño avanzado.</p>
+                        <ul class="text-xs text-slate-300 space-y-2.5 mb-6">
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-purple-400"></i> Sin anuncios ni limitaciones</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-purple-400"></i> Funciones avanzadas desbloqueadas</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-purple-400"></i> Actualizaciones permanentes</li>
+                        </ul>
+                    </div>
+                    <button onclick="requestWhatsApp('Pack Multimedia e IA', 'Hola ExeptedTech, quiero adquirir la suscripción del Pack Multimedia e Inteligencia Artificial. Vengo de su página web exeptedtech.xyz.')" class="w-full py-3 rounded-xl font-bold text-xs bg-gradient-to-r from-brand-600 to-purple-600 hover:from-brand-500 hover:to-purple-500 text-white shadow-lg transition-all flex items-center justify-center gap-2">
+                        <i class="fa-brands fa-whatsapp text-sm"></i> Adquirir Suscripción
+                    </button>
+                </div>
+
+                <!-- App Subscription Item 3 -->
+                <div class="glass-card p-6 rounded-3xl flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="w-12 h-12 rounded-2xl bg-cyan-500/10 text-cyan-400 flex items-center justify-center text-2xl border border-cyan-500/20">
+                                <i class="fa-solid fa-shield-halved"></i>
+                            </div>
+                            <span class="px-3 py-1 text-xs font-bold rounded-full bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">Seguridad</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-2 font-display">VPN & Seguridad Móvil</h3>
+                        <p class="text-slate-400 text-xs mb-4">Protección integral de navegación y privacidad con licencias de redes privadas virtuales de ultra velocidad.</p>
+                        <ul class="text-xs text-slate-300 space-y-2.5 mb-6">
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-cyan-400"></i> Servidores ultra rápidos ilimitados</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-cyan-400"></i> Compatibilidad Android e iOS</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-cyan-400"></i> Encriptado de alto nivel</li>
+                        </ul>
+                    </div>
+                    <button onclick="requestWhatsApp('Suscripción VPN y Seguridad', 'Hola ExeptedTech, solicito información sobre licencias VPN y Seguridad Móvil. Vengo de su página web exeptedtech.xyz.')" class="w-full py-3 rounded-xl font-bold text-xs bg-slate-800 hover:bg-brand-600 text-white border border-slate-700 hover:border-brand-500 transition-all flex items-center justify-center gap-2">
+                        <i class="fa-brands fa-whatsapp text-sm text-emerald-400"></i> Solicitar Licencia
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="juegos" class="py-20 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="glass-panel p-8 sm:p-12 rounded-3xl border-cyan-500/30 text-center relative overflow-hidden bg-gradient-to-b from-slate-900/90 via-slate-950 to-slate-950 shadow-2xl">
+                
+                <div class="absolute top-0 right-0 p-8 text-cyan-500/10 text-9xl pointer-events-none">
+                    <i class="fa-solid fa-gamepad"></i>
+                </div>
+
+                <span class="text-xs font-extrabold text-cyan-400 tracking-wider uppercase bg-cyan-500/10 px-3.5 py-1.5 rounded-full border border-cyan-500/20 inline-block mb-4">Sección 2</span>
+                
+                <h2 class="text-3xl sm:text-5xl font-extrabold text-white mb-6 font-display">
+                    Juegos Android Exclusivos
+                </h2>
+                
+                <p class="text-slate-300 max-w-2xl mx-auto text-sm sm:text-lg leading-relaxed mb-8">
+                    Contamos con un amplio catálogo actualizado de títulos arcade, acción, lógica y simulación diseñados por <strong class="text-white">ExeptedTech Luvia Company Tm</strong>. Rendimiento optimizado para cualquier smartphone Android.
+                </p>
+
+                <div class="p-6 max-w-xl mx-auto rounded-2xl bg-slate-900/90 border border-slate-800 mb-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <div class="flex items-center gap-3 text-left">
+                        <div class="w-12 h-12 rounded-xl bg-cyan-500/10 text-cyan-400 flex items-center justify-center text-2xl shrink-0 border border-cyan-500/20">
+                            <i class="fa-brands fa-android"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-sm font-bold text-white">Catálogo Completo de Juegos APK</h4>
+                            <p class="text-xs text-slate-400">Pide nuestra lista interactiva directamente por WhatsApp</p>
+                        </div>
+                    </div>
+                    <span class="px-3.5 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 text-xs font-bold shrink-0">Lista Directa APK</span>
+                </div>
+
+                <!-- DIRECT WHATSAPP BUTTON FOR FULL CATALOG -->
+                <button onclick="requestWhatsApp('Catálogo de Juegos Android', 'Hola ExeptedTech, envíame el catálogo completo de juegos Android disponibles en formato APK por favor. Vengo de su página web exeptedtech.xyz.')" class="px-8 py-4 rounded-2xl font-bold text-sm bg-gradient-to-r from-cyan-600 via-brand-600 to-purple-600 hover:from-cyan-500 hover:to-purple-500 text-white shadow-2xl shadow-cyan-600/30 transition-all transform hover:-translate-y-0.5 active:scale-95 inline-flex items-center gap-3">
+                    <i class="fa-brands fa-whatsapp text-2xl"></i>
+                    <span>Envía WhatsApp Para Nuestro Catálogo Completo</span>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <section id="web" class="py-20 relative bg-slate-950/60">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-xs font-extrabold text-cyan-400 tracking-wider uppercase bg-cyan-500/10 px-3.5 py-1.5 rounded-full border border-cyan-500/20">Sección 3</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-white mt-3 mb-4 font-display">Creación de Páginas Web Profesionales</h2>
+                <p class="text-slate-400 text-sm sm:text-base">Desarrollo web ultrarrápido, responsivo, optimizado para celulares Android, iPhone y computadoras. Impulsa la presencia de tu empresa hoy.</p>
+            </div>
+
+            <!-- Web Pricing Cards Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                
+                <!-- Plan Emprendedor -->
+                <div class="glass-card p-8 rounded-3xl flex flex-col justify-between border-slate-700 relative">
+                    <div>
+                        <div class="inline-block px-3 py-1 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/20 text-[10px] font-extrabold uppercase tracking-wider mb-4">
+                            ¡Descuento del Mes!
+                        </div>
+                        <span class="text-xs font-bold text-slate-400 uppercase tracking-widest block">Plan Emprendedor</span>
+                        <h3 class="text-2xl font-bold text-white mt-1 mb-3 font-display">Landing Page Express</h3>
+                        <p class="text-slate-400 text-xs mb-6">Ideal para pequeños negocios y profesionales que necesitan estar presentes en internet rápidamente.</p>
+                        
+                        <div class="mb-6">
+                            <span class="text-slate-500 text-sm line-through block font-medium">$1,800 MXN</span>
+                            <div class="text-4xl font-black text-white font-display">$1,500 <span class="text-xs text-slate-400 font-normal">MXN (Pago único)</span></div>
+                        </div>
+
+                        <ul class="text-xs text-slate-300 space-y-3 mb-8">
+                            <li class="flex items-center gap-2.5"><i class="fa-solid fa-circle-check text-emerald-400"></i> Diseño Monopágina (SPA) Pro</li>
+                            <li class="flex items-center gap-2.5"><i class="fa-solid fa-circle-check text-emerald-400"></i> 100% Adaptado a Celulares e iOS</li>
+                            <li class="flex items-center gap-2.5"><i class="fa-solid fa-circle-check text-emerald-400"></i> Enlace directo a WhatsApp</li>
+                            <li class="flex items-center gap-2.5"><i class="fa-solid fa-circle-check text-emerald-400"></i> Integración de Redes Sociales</li>
+                            <li class="flex items-center gap-2.5"><i class="fa-solid fa-circle-check text-emerald-400"></i> Hosting Gratuito Incluido</li>
+                        </ul>
+                    </div>
+                    <button onclick="requestWhatsApp('Plan Emprendedor - Landing Page Express ($1,500 MXN)', 'Hola ExeptedTech, quiero contratar el Plan Emprendedor (Landing Page Express) con descuento de $1,500 MXN. Vengo de su página web exeptedtech.xyz.')" class="w-full py-3.5 rounded-xl font-bold text-xs bg-slate-800 hover:bg-brand-600 text-white border border-slate-700 hover:border-brand-500 transition-all flex items-center justify-center gap-2">
+                        <i class="fa-brands fa-whatsapp text-sm text-emerald-400"></i> Contratar Plan Express
+                    </button>
+                </div>
+
+                <!-- Plan Negocio Pro (Featured) -->
+                <div class="glass-card p-8 rounded-3xl flex flex-col justify-between border-brand-500/80 relative bg-slate-900/90 shadow-2xl shadow-brand-500/20">
+                    <div class="absolute -top-3.5 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-gradient-to-r from-brand-500 to-purple-600 text-[11px] font-black text-white uppercase tracking-wider shadow-lg">
+                        Más Popular
+                    </div>
+                    <div>
+                        <span class="text-xs font-bold text-brand-400 uppercase tracking-widest block mt-2">Plan Negocio Pro</span>
+                        <h3 class="text-2xl font-bold text-white mt-1 mb-3 font-display">Sitio Web Corporativo</h3>
+                        <p class="text-slate-400 text-xs mb-6">Para empresas que requieren múltiples secciones, catálogo interactivo o cotizador en vivo.</p>
+                        
+                        <div class="mb-6">
+                            <span class="text-slate-500 text-sm line-through block font-medium">$2,800 MXN</span>
+                            <div class="text-4xl font-black text-white font-display">$2,300 <span class="text-xs text-slate-400 font-normal">MXN (Pago único)</span></div>
+                        </div>
+
+                        <ul class="text-xs text-slate-300 space-y-3 mb-8">
+                            <li class="flex items-center gap-2.5"><i class="fa-solid fa-circle-check text-brand-400"></i> Hasta 6 Secciones Interactivas</li>
+                            <li class="flex items-center gap-2.5"><i class="fa-solid fa-circle-check text-brand-400"></i> Formularios + Cotizador en Línea</li>
+                            <li class="flex items-center gap-2.5"><i class="fa-solid fa-circle-check text-brand-400"></i> SEO Optimizado para Google</li>
+                            <li class="flex items-center gap-2.5"><i class="fa-solid fa-circle-check text-brand-400"></i> Mapa Interactivo y Galería HD</li>
+                            <li class="flex items-center gap-2.5"><i class="fa-solid fa-circle-check text-brand-400"></i> Certificado de Seguridad SSL Gratis</li>
+                        </ul>
+                    </div>
+                    <button onclick="requestWhatsApp('Plan Negocio Pro - Sitio Corporativo ($2,300 MXN)', 'Hola ExeptedTech, quiero solicitar la contratación del Sitio Web Corporativo en oferta por $2,300 MXN. Vengo de su página web exeptedtech.xyz.')" class="w-full py-3.5 rounded-xl font-bold text-xs shimmer-button text-white shadow-lg transition-all flex items-center justify-center gap-2">
+                        <i class="fa-brands fa-whatsapp text-sm"></i> Contratar Plan Corporativo
+                    </button>
+                </div>
+
+                <!-- Plan E-Commerce -->
+                <div class="glass-card p-8 rounded-3xl flex flex-col justify-between border-slate-700">
+                    <div>
+                        <span class="text-xs font-bold text-cyan-400 uppercase tracking-widest block">Plan E-Commerce</span>
+                        <h3 class="text-2xl font-bold text-white mt-1 mb-3 font-display">Tienda Digital / App Web</h3>
+                        <p class="text-slate-400 text-xs mb-6">Plataforma web avanzada para comercializar tus productos o servicios con pagos integrados.</p>
+                        
+                        <div class="mb-6">
+                            <div class="text-4xl font-black text-white font-display">$4,500 <span class="text-xs text-slate-400 font-normal">MXN (Pago único)</span></div>
+                        </div>
+
+                        <ul class="text-xs text-slate-300 space-y-3 mb-8">
+                            <li class="flex items-center gap-2.5"><i class="fa-solid fa-circle-check text-cyan-400"></i> Tienda Online Completa</li>
+                            <li class="flex items-center gap-2.5"><i class="fa-solid fa-circle-check text-cyan-400"></i> Panel de Administración de Productos</li>
+                            <li class="flex items-center gap-2.5"><i class="fa-solid fa-circle-check text-cyan-400"></i> Pagos con Tarjeta, OXXO y SPEI</li>
+                            <li class="flex items-center gap-2.5"><i class="fa-solid fa-circle-check text-cyan-400"></i> Base de Datos de Clientes</li>
+                            <li class="flex items-center gap-2.5"><i class="fa-solid fa-circle-check text-cyan-400"></i> Capacitación de administración incluida</li>
+                        </ul>
+                    </div>
+                    <button onclick="requestWhatsApp('Plan E-Commerce - Tienda Digital ($4,500 MXN)', 'Hola ExeptedTech, quiero contratar el Plan de Tienda Digital / App Web por $4,500 MXN. Vengo de su página web exeptedtech.xyz.')" class="w-full py-3.5 rounded-xl font-bold text-xs bg-slate-800 hover:bg-brand-600 text-white border border-slate-700 transition-all flex items-center justify-center gap-2">
+                        <i class="fa-brands fa-whatsapp text-sm text-emerald-400"></i> Contratar Tienda Online
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="apps" class="py-20 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div>
+                    <span class="text-xs font-extrabold text-amber-400 tracking-wider uppercase bg-amber-500/10 px-3.5 py-1.5 rounded-full border border-amber-500/20">Sección 4</span>
+                    <h2 class="text-3xl sm:text-4xl font-extrabold text-white mt-3 mb-6 font-display">
+                        Creación de Apps Móviles Personales y para Tu Negocio
+                    </h2>
+                    <p class="text-slate-300 text-sm sm:text-base leading-relaxed mb-6">
+                        Desarrollamos aplicaciones nativas e híbridas para Android e iOS. Convertimos tus procesos de venta e ideas personales en aplicaciones móviles rápidas, seguras e intuitivas.
+                    </p>
+
+                    <div class="space-y-4 mb-8">
+                        <div class="flex items-start gap-4 p-4 rounded-2xl bg-slate-900/60 border border-slate-800">
+                            <div class="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center text-xl shrink-0 border border-amber-500/20">
+                                <i class="fa-solid fa-mobile-screen"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-sm font-bold text-white font-display">Apps Empresariales & Control Interno</h4>
+                                <p class="text-xs text-slate-400 mt-1">Sistemas de inventarios, citas, pedidos de clientes, módulos de repartidores y fidelización.</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-4 p-4 rounded-2xl bg-slate-900/60 border border-slate-800">
+                            <div class="w-10 h-10 rounded-xl bg-brand-500/10 text-brand-400 flex items-center justify-center text-xl shrink-0 border border-brand-500/20">
+                                <i class="fa-solid fa-pen-nib"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-sm font-bold text-white font-display">Diseño UI/UX de Alta Fidelidad</h4>
+                                <p class="text-xs text-slate-400 mt-1">Interfaces modernas diseñadas exclusivamente para máxima experiencia de usuario y rapidez.</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-4 p-4 rounded-2xl bg-slate-900/60 border border-slate-800">
+                            <div class="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center text-xl shrink-0 border border-emerald-500/20">
+                                <i class="fa-brands fa-google-play"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-sm font-bold text-white font-display">Publicación en Play Store / App Store</h4>
+                                <p class="text-xs text-slate-400 mt-1">Nos encargamos de la compilación de instaladores APK/AAB y acompañamiento técnico.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button onclick="requestWhatsApp('Cotización de App Móvil', 'Hola ExeptedTech, quiero cotizar la creación de una App Móvil para mi negocio. Vengo de su página web exeptedtech.xyz.')" class="px-8 py-4 rounded-2xl text-xs font-bold bg-amber-500 hover:bg-amber-400 text-slate-950 shadow-xl shadow-amber-500/20 transition-all flex items-center justify-center gap-2">
+                        <i class="fa-brands fa-whatsapp text-lg"></i>
+                        <span>Cotizar Mi App Móvil por WhatsApp</span>
+                    </button>
+                </div>
+
+                <!-- Interactive Step Progress Panel -->
+                <div class="glass-panel p-8 rounded-3xl border-slate-700 relative">
+                    <div class="text-center mb-6">
+                        <h3 class="text-lg font-bold text-white font-display">Proceso de Desarrollo ExeptedTech</h3>
+                        <p class="text-xs text-slate-400">Flujo ágil de trabajo transparente</p>
+                    </div>
+
+                    <div class="space-y-5">
+                        <div class="flex items-center gap-4">
+                            <span class="w-9 h-9 rounded-xl bg-brand-600 text-white font-bold text-xs flex items-center justify-center shrink-0">1</span>
+                            <div class="flex-1 bg-slate-900/80 p-3.5 rounded-2xl border border-slate-800 text-xs">
+                                <span class="font-bold text-white block font-display">Análisis & Planificación</span>
+                                <span class="text-slate-400">Definimos los requerimientos y funciones clave de tu app.</span>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center gap-4">
+                            <span class="w-9 h-9 rounded-xl bg-purple-600 text-white font-bold text-xs flex items-center justify-center shrink-0">2</span>
+                            <div class="flex-1 bg-slate-900/80 p-3.5 rounded-2xl border border-slate-800 text-xs">
+                                <span class="font-bold text-white block font-display">Diseño Prototipo UI</span>
+                                <span class="text-slate-400">Creación visual de pantallas e interacción táctil.</span>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center gap-4">
+                            <span class="w-9 h-9 rounded-xl bg-cyan-600 text-white font-bold text-xs flex items-center justify-center shrink-0">3</span>
+                            <div class="flex-1 bg-slate-900/80 p-3.5 rounded-2xl border border-slate-800 text-xs">
+                                <span class="font-bold text-white block font-display">Programación & Código</span>
+                                <span class="text-slate-400">Desarrollo de lógica, bases de datos y seguridad.</span>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center gap-4">
+                            <span class="w-9 h-9 rounded-xl bg-emerald-600 text-white font-bold text-xs flex items-center justify-center shrink-0">4</span>
+                            <div class="flex-1 bg-slate-900/80 p-3.5 rounded-2xl border border-slate-800 text-xs">
+                                <span class="font-bold text-white block font-display">Entrega de APK & Despliegue</span>
+                                <span class="text-slate-400">Entrega de la aplicación lista para instalar en dispositivos.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="videojuegos" class="py-20 relative bg-slate-950/60">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-xs font-extrabold text-red-400 tracking-wider uppercase bg-red-500/10 px-3.5 py-1.5 rounded-full border border-red-500/20">Sección 5</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-white mt-3 mb-4 font-display">Desarrollo de Videojuegos Android Personalizados</h2>
+                <p class="text-slate-400 text-sm sm:text-base">Creamos juegos 2D/3D sencillos y adictivos para promocionar tu marca o monetizar con publicidad y compras dentro de la app.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Game Offer 1 -->
+                <div class="glass-card p-6 rounded-3xl flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 rounded-2xl bg-red-500/10 text-red-400 flex items-center justify-center text-2xl mb-4 border border-red-500/20">
+                            <i class="fa-solid fa-ghost"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-2 font-display">Juegos Casuales 2D / Pixel Art</h3>
+                        <p class="text-slate-400 text-xs mb-4">Mecánicas ágiles como runners, plataformas o puzzles ideales para alta adicción de jugadores.</p>
+                        <ul class="text-xs text-slate-300 space-y-2.5 mb-6">
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-red-400"></i> Diseños gráficos 2D personalizados</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-red-400"></i> Integración de anuncios AdMob</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-red-400"></i> Efectos de sonido y música incluidos</li>
+                        </ul>
+                    </div>
+                    <button onclick="requestWhatsApp('Desarrollo de Juego 2D', 'Hola ExeptedTech, quiero cotizar la creación de un Videojuego 2D para Android. Vengo de su página web exeptedtech.xyz.')" class="w-full py-3 rounded-xl font-bold text-xs bg-slate-800 hover:bg-red-600 text-white border border-slate-700 transition-all flex items-center justify-center gap-2">
+                        <i class="fa-brands fa-whatsapp text-sm text-emerald-400"></i> Cotizar Juego 2D
+                    </button>
+                </div>
+
+                <!-- Game Offer 2 -->
+                <div class="glass-card p-6 rounded-3xl flex flex-col justify-between border-purple-500/40">
+                    <div>
+                        <div class="w-12 h-12 rounded-2xl bg-purple-500/10 text-purple-400 flex items-center justify-center text-2xl mb-4 border border-purple-500/20">
+                            <i class="fa-solid fa-bullseye"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-2 font-display">Juegos Publicitarios para Marcas</h3>
+                        <p class="text-slate-400 text-xs mb-4">Integra tu logotipo, productos o servicios dentro de las mecánicas del juego para captar clientes.</p>
+                        <ul class="text-xs text-slate-300 space-y-2.5 mb-6">
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-purple-400"></i> Branding empresarial integrado</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-purple-400"></i> Sistema de cupones de descuento al ganar</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-purple-400"></i> Tabla de puntuaciones globales</li>
+                        </ul>
+                    </div>
+                    <button onclick="requestWhatsApp('Juego Publicitario para Marca', 'Hola ExeptedTech, solicito cotización para un videojuego promocional para mi empresa. Vengo de su página web exeptedtech.xyz.')" class="w-full py-3 rounded-xl font-bold text-xs bg-gradient-to-r from-purple-600 to-brand-600 text-white transition-all shadow-md flex items-center justify-center gap-2">
+                        <i class="fa-brands fa-whatsapp text-sm"></i> Cotizar Juego de Marca
+                    </button>
+                </div>
+
+                <!-- Game Offer 3 -->
+                <div class="glass-card p-6 rounded-3xl flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 rounded-2xl bg-cyan-500/10 text-cyan-400 flex items-center justify-center text-2xl mb-4 border border-cyan-500/20">
+                            <i class="fa-solid fa-cube"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-2 font-display">Prototipos 3D / Simulación</h3>
+                        <p class="text-slate-400 text-xs mb-4">Experiencias tridimensionales sencillas, físicas dinámicas y controles optimizados para pantallas táctiles.</p>
+                        <ul class="text-xs text-slate-300 space-y-2.5 mb-6">
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-cyan-400"></i> Físicas en tiempo real</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-cyan-400"></i> Modelado 3D ligero y fluido</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-cyan-400"></i> Archivo instalador APK directo</li>
+                        </ul>
+                    </div>
+                    <button onclick="requestWhatsApp('Prototipo de Juego 3D', 'Hola ExeptedTech, me interesa cotizar un prototipo de juego 3D para Android. Vengo de su página web exeptedtech.xyz.')" class="w-full py-3 rounded-xl font-bold text-xs bg-slate-800 hover:bg-cyan-600 text-white border border-slate-700 transition-all flex items-center justify-center gap-2">
+                        <i class="fa-brands fa-whatsapp text-sm text-emerald-400"></i> Cotizar Prototipo 3D
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="nosotros" class="py-20 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="glass-panel rounded-3xl p-8 sm:p-12 border-slate-700">
+                <div class="max-w-3xl">
+                    <span class="text-xs font-extrabold text-brand-400 tracking-wider uppercase bg-brand-500/10 px-3.5 py-1.5 rounded-full border border-brand-500/20">Sección 6</span>
+                    <h2 class="text-3xl sm:text-4xl font-extrabold text-white mt-3 mb-6 font-display">Acerca de ExeptedTech Luvia Company Tm</h2>
+                    <p class="text-slate-300 text-sm sm:text-base leading-relaxed mb-6">
+                        En <strong class="text-white">ExeptedTech Luvia Company Tm</strong> fusionamos la precisión de la ingeniería de software profesional con estrategias efectivas de marketing digital. Nuestra meta es ofrecer soluciones digitales de alto impacto que impulsen el crecimiento de empresas, emprendedores y creadores.
+                    </p>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-8">
+                        Nos caracterizamos por el desarrollo eficiente, código limpio, transparencia total en presupuestos y la máxima atención personalizada.
+                    </p>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-6 border-t border-slate-800">
+                        <div>
+                            <p class="text-xs font-bold text-slate-400 uppercase">Filosofía</p>
+                            <p class="text-sm font-semibold text-white mt-1">Calidad de Ingeniería</p>
+                        </div>
+                        <div>
+                            <p class="text-xs font-bold text-slate-400 uppercase">Enfoque</p>
+                            <p class="text-sm font-semibold text-white mt-1">Desarrollo + Marketing</p>
+                        </div>
+                        <div>
+                            <p class="text-xs font-bold text-slate-400 uppercase">Contacto Directo</p>
+                            <p class="text-sm font-semibold text-emerald-400 mt-1">+52 55 6614 7938</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="cotizador" class="py-20 relative bg-slate-950/80">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="glass-card p-8 rounded-3xl border-brand-500/40 shadow-2xl">
+                <div class="text-center mb-8">
+                    <span class="text-xs font-extrabold text-cyan-400 tracking-wider uppercase bg-cyan-500/10 px-3.5 py-1.5 rounded-full border border-cyan-500/20">Calculadora ExeptedTech</span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-white mt-3 font-display">Cotizador Express de Proyectos</h2>
+                    <p class="text-slate-400 text-xs sm:text-sm mt-2">Selecciona las opciones que necesitas y genera tu presupuesto en tiempo real.</p>
+                </div>
+
+                <div class="space-y-6">
+                    <!-- Step 1: Base Service -->
+                    <div>
+                        <label class="block text-xs font-bold text-slate-300 uppercase mb-2">1. Selecciona el Servicio Principal</label>
+                        <select id="calc-service" onchange="calculatePrice()" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3.5 text-xs sm:text-sm text-white focus:outline-none focus:border-brand-500">
+                            <option value="1500">Plan Emprendedor - Landing Page Express ($1,500 MXN en oferta)</option>
+                            <option value="2300">Plan Negocio Pro - Sitio Corporativo ($2,300 MXN en oferta)</option>
+                            <option value="4500">Plan E-Commerce - Tienda Digital ($4,500 MXN)</option>
+                            <option value="2500">App Móvil para Negocio Android/iOS ($2,500 MXN base)</option>
+                            <option value="1200">Videojuego Android 2D Personalizado ($1,200 MXN base)</option>
+                            <option value="150">Suscripción de App Premium ($150 MXN)</option>
+                        </select>
+                    </div>
+
+                    <!-- Step 2: Extras -->
+                    <div>
+                        <label class="block text-xs font-bold text-slate-300 uppercase mb-2">2. Agrega Complementos Opcionales</label>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                            <label class="flex items-center gap-3 p-3.5 bg-slate-900/80 rounded-xl border border-slate-800 cursor-pointer hover:bg-slate-800/80">
+                                <input type="checkbox" id="extra-logo" value="350" onchange="calculatePrice()" class="rounded text-brand-600 focus:ring-0">
+                                <span class="text-slate-300">Diseño de Logotipo HD (+$350 MXN)</span>
+                            </label>
+                            <label class="flex items-center gap-3 p-3.5 bg-slate-900/80 rounded-xl border border-slate-800 cursor-pointer hover:bg-slate-800/80">
+                                <input type="checkbox" id="extra-express" value="400" onchange="calculatePrice()" class="rounded text-brand-600 focus:ring-0">
+                                <span class="text-slate-300">Entrega Urgente Express 24 Horas (+$400 MXN)</span>
+                            </label>
+                            <label class="flex items-center gap-3 p-3.5 bg-slate-900/80 rounded-xl border border-slate-800 cursor-pointer hover:bg-slate-800/80">
+                                <input type="checkbox" id="extra-seo" value="300" onchange="calculatePrice()" class="rounded text-brand-600 focus:ring-0">
+                                <span class="text-slate-300">Optimización SEO Avanzada (+$300 MXN)</span>
+                            </label>
+                            <label class="flex items-center gap-3 p-3.5 bg-slate-900/80 rounded-xl border border-slate-800 cursor-pointer hover:bg-slate-800/80">
+                                <input type="checkbox" id="extra-support" value="250" onchange="calculatePrice()" class="rounded text-brand-600 focus:ring-0">
+                                <span class="text-slate-300">Mantenimiento VIP 1 Mes (+$250 MXN)</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Price Box Output -->
+                    <div class="p-6 rounded-2xl bg-gradient-to-r from-brand-900/60 via-purple-900/60 to-slate-900 border border-brand-500/30 flex flex-col sm:flex-row justify-between items-center gap-4">
+                        <div>
+                            <span class="text-xs font-bold text-slate-400 block uppercase">Inversión Estimada:</span>
+                            <span id="total-price" class="text-3xl font-black text-white font-display">$1,500 <span class="text-sm text-slate-300 font-normal">MXN</span></span>
+                        </div>
+                        <button onclick="sendCalculatedQuote()" class="w-full sm:w-auto px-6 py-3.5 rounded-xl font-bold text-xs bg-emerald-600 hover:bg-emerald-500 text-white shadow-lg shadow-emerald-600/20 transition-all flex items-center justify-center gap-2">
+                            <i class="fa-brands fa-whatsapp text-lg"></i>
+                            <span>Pedir este Presupuesto en WhatsApp</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-20 relative">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-white font-display">Preguntas Frecuentes (FAQ)</h2>
+                <p class="text-slate-400 text-xs sm:text-sm mt-2">Respuestas rápidas a las dudas comunes sobre nuestros servicios.</p>
+            </div>
+
+            <div class="space-y-4">
+                <div class="p-5 rounded-2xl bg-slate-900/80 border border-slate-800">
+                    <h4 class="font-bold text-white text-sm mb-2"><i class="fa-solid fa-circle-question text-brand-400 mr-2"></i>¿Cómo puedo iniciar un proyecto de desarrollo hoy mismo?</h4>
+                    <p class="text-slate-400 text-xs leading-relaxed">Puedes enviarnos un mensaje directo por WhatsApp haciendo clic en cualquier botón de cotización. Te atenderemos inmediatamente para acordar los requerimientos.</p>
+                </div>
+
+                <div class="p-5 rounded-2xl bg-slate-900/80 border border-slate-800">
+                    <h4 class="font-bold text-white text-sm mb-2"><i class="fa-solid fa-circle-question text-brand-400 mr-2"></i>¿Qué medios de pago aceptan?</h4>
+                    <p class="text-slate-400 text-xs leading-relaxed">Aceptamos transferencias bancarias SPEI, depósitos en OXXO, tarjetas de crédito/débito y PayPal.</p>
+                </div>
+
+                <div class="p-5 rounded-2xl bg-slate-900/80 border border-slate-800">
+                    <h4 class="font-bold text-white text-sm mb-2"><i class="fa-solid fa-circle-question text-brand-400 mr-2"></i>¿Cuánto tiempo toma la entrega de una página web o app?</h4>
+                    <p class="text-slate-400 text-xs leading-relaxed">Las Landing Pages Express se entregan en 24 a 48 horas. Sitios corporativos y aplicaciones móviles entre 3 y 7 días hábiles según las funciones requeridas.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="py-12 border-t border-slate-800/80 bg-slate-950 text-center relative z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col items-center justify-center space-y-4 mb-8">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 flex items-center justify-center">
+                        <svg viewBox="0 0 200 200" class="w-full h-full">
+                            <path d="M 40 100 A 60 60 0 1 1 160 100 A 60 60 0 0 1 70 155" fill="none" stroke="url(#chromeGrad)" stroke-width="6"/>
+                            <path d="M 55 65 L 105 65 L 90 85 L 75 85 L 75 95 L 100 95 L 88 112 L 75 112 L 75 135 L 115 135 L 100 150 L 55 150 Z" fill="url(#chromeGrad)"/>
+                            <path d="M 95 65 C 130 60 165 70 170 80 C 145 88 125 105 110 150 C 122 120 140 100 160 92 C 140 92 115 108 102 145 L 88 145 C 105 105 125 82 155 75 L 95 75 Z" fill="#0284c7"/>
+                        </svg>
+                    </div>
+                    <span class="text-xl font-black text-white tracking-tight font-display">ExeptedTech Luvia Company Tm</span>
+                </div>
+                <p class="text-slate-400 text-xs max-w-md">Ingeniería de software profesional y soluciones de marketing digital.</p>
+                <p class="text-xs text-cyan-400 font-semibold">Sitio Oficial: exeptedtech.xyz</p>
+            </div>
+
+            <!-- WhatsApp Number Callout -->
+            <div class="mb-6">
+                <a href="https://wa.me/525566147938?text=Hola,%20solicito%20informaci%C3%B3n,%20vengo%20de%20su%20web" target="_blank" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-900 border border-emerald-500/30 text-emerald-400 font-bold text-xs hover:bg-slate-800 transition-colors">
+                    <i class="fa-brands fa-whatsapp text-base"></i>
+                    <span>WhatsApp Oficial: +52 55 6614 7938</span>
+                </a>
+            </div>
+
+            <p class="text-xs text-slate-500">&copy; 2026 ExeptedTech Luvia Company Tm. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- FLOATING WHATSAPP BUTTON -->
+    <a href="https://wa.me/525566147938?text=Hola,%20solicito%20informaci%C3%B3n,%20vengo%20de%20su%20web" target="_blank" aria-label="WhatsApp Contacto" class="fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full bg-emerald-500 hover:bg-emerald-400 text-white flex items-center justify-center text-3xl shadow-2xl shadow-emerald-500/50 transition-all hover:scale-110 active:scale-95 animate-bounce">
+        <i class="fa-brands fa-whatsapp"></i>
+    </a>
+
+    <script>
+        // WhatsApp Configuration Number
+        const PHONE_NUMBER = "525566147938";
+
+        // Mobile drawer toggler
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        // Direct WhatsApp Helper Function
+        function requestWhatsApp(serviceName, customMessage) {
+            let message = customMessage;
+            if (!message) {
+                message = `Hola ExeptedTech, solicito cotización para: ${serviceName}. Vengo de su página web exeptedtech.xyz.`;
+            }
+            const encodedText = encodeURIComponent(message);
+            window.open(`https://wa.me/${PHONE_NUMBER}?text=${encodedText}`, '_blank');
+        }
+
+        // Calculator Price Updating Function
+        function calculatePrice() {
+            const serviceSelect = document.getElementById('calc-service');
+            let basePrice = parseInt(serviceSelect.value) || 0;
+
+            const logo = document.getElementById('extra-logo').checked ? parseInt(document.getElementById('extra-logo').value) : 0;
+            const express = document.getElementById('extra-express').checked ? parseInt(document.getElementById('extra-express').value) : 0;
+            const seo = document.getElementById('extra-seo').checked ? parseInt(document.getElementById('extra-seo').value) : 0;
+            const support = document.getElementById('extra-support').checked ? parseInt(document.getElementById('extra-support').value) : 0;
+
+            const total = basePrice + logo + express + seo + support;
+            document.getElementById('total-price').innerHTML = `$${total.toLocaleString()} <span class="text-sm text-slate-300 font-normal">MXN</span>`;
+        }
+
+        // Calculator WhatsApp Submission Link Builder
+        function sendCalculatedQuote() {
+            const serviceSelect = document.getElementById('calc-service');
+            const serviceName = serviceSelect.options[serviceSelect.selectedIndex].text;
+            
+            const logo = document.getElementById('extra-logo').checked ? 'Sí' : 'No';
+            const express = document.getElementById('extra-express').checked ? 'Sí' : 'No';
+            const seo = document.getElementById('extra-seo').checked ? 'Sí' : 'No';
+            const support = document.getElementById('extra-support').checked ? 'Sí' : 'No';
+            const totalText = document.getElementById('total-price').innerText;
+
+            const message = `Hola ExeptedTech, he cotizado un servicio en su sitio web exeptedtech.xyz:\n\n*Servicio Principal:* ${serviceName}\n*Diseño de Logo HD:* ${logo}\n*Entrega Express 24h:* ${express}\n*SEO Avanzado:* ${seo}\n*Mantenimiento VIP:* ${support}\n\n*Total Estimado:* ${totalText}\n\n¿Podemos agendar para iniciar hoy?`;
+
+            window.open(`https://wa.me/${PHONE_NUMBER}?text=${encodeURIComponent(message)}`, '_blank');
+        }
+
+        // Initialize calculator price on load
+        window.addEventListener('DOMContentLoaded', () => {
+            calculatePrice();
+        });
+    </script>
+</body>
+</html>
