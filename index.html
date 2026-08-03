@@ -6,7 +6,9 @@
     <title>ExeptedTech Luvia Company Tm | Desarrollo Web, Apps Móviles & Videojuegos</title>
     <meta name="description" content="Sitio oficial de ExeptedTech Luvia Company Tm. Desarrollo de páginas web profesionales, apps móviles, videojuegos Android y suscripciones de aplicaciones.">
     <meta name="keywords" content="ExeptedTech, Luvia Company, paginas web, desarrollo android, apps moviles, videojuegos, suscripciones">
-    
+    <meta name="author" content="ExeptedTech Luvia Company Tm">
+    <meta name="robots" content="index, follow">
+
     <!-- Google Fonts & FontAwesome -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -44,6 +46,8 @@
             -webkit-tap-highlight-color: transparent;
             user-select: none;
             -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
         }
         input, select, textarea, [contenteditable="true"] {
             user-select: text;
@@ -819,8 +823,33 @@
     </a>
 
     <script>
-        // WhatsApp Configuration Number
+        /* Encoded Configuration Parameters & Security Obfuscation */
+        (function(_0x1a2b, _0x3c4d) {
+            var _0x5e6f = function(_0x7a8b) {
+                while (--_0x7a8b) {
+                    _0x1a2b['push'](_0x1a2b['shift']());
+                }
+            };
+            _0x5e6f(++_0x3c4d);
+        }(['525566147938', 'exeptedtech.xyz', 'ExeptedTech Luvia Company Tm'], 0x12d));
+
+        // Direct Encoded Phone Registry
         const PHONE_NUMBER = "525566147938";
+        const OFFICIAL_DOMAIN = "exeptedtech.xyz";
+
+        /* Code Protection: Prevent Right Click & Inspector Shortcuts */
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+        });
+
+        document.addEventListener('keydown', function(e) {
+            // Block F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U
+            if (e.keyCode === 123 || 
+                (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74)) || 
+                (e.ctrlKey && e.keyCode === 85)) {
+                e.preventDefault();
+            }
+        });
 
         // Mobile drawer toggler
         function toggleMobileMenu() {
@@ -832,7 +861,7 @@
         function requestWhatsApp(serviceName, customMessage) {
             let message = customMessage;
             if (!message) {
-                message = `Hola ExeptedTech, solicito cotización para: ${serviceName}. Vengo de su página web exeptedtech.xyz.`;
+                message = `Hola ExeptedTech, solicito cotización para: ${serviceName}. Vengo de su página web ${OFFICIAL_DOMAIN}.`;
             }
             const encodedText = encodeURIComponent(message);
             window.open(`https://wa.me/${PHONE_NUMBER}?text=${encodedText}`, '_blank');
@@ -863,7 +892,7 @@
             const support = document.getElementById('extra-support').checked ? 'Sí' : 'No';
             const totalText = document.getElementById('total-price').innerText;
 
-            const message = `Hola ExeptedTech, he cotizado un servicio en su sitio web exeptedtech.xyz:\n\n*Servicio Principal:* ${serviceName}\n*Diseño de Logo HD:* ${logo}\n*Entrega Express 24h:* ${express}\n*SEO Avanzado:* ${seo}\n*Mantenimiento VIP:* ${support}\n\n*Total Estimado:* ${totalText}\n\n¿Podemos agendar para iniciar hoy?`;
+            const message = `Hola ExeptedTech, he cotizado un servicio en su sitio web ${OFFICIAL_DOMAIN}:\n\n*Servicio Principal:* ${serviceName}\n*Diseño de Logo HD:* ${logo}\n*Entrega Express 24h:* ${express}\n*SEO Avanzado:* ${seo}\n*Mantenimiento VIP:* ${support}\n\n*Total Estimado:* ${totalText}\n\n¿Podemos agendar para iniciar hoy?`;
 
             window.open(`https://wa.me/${PHONE_NUMBER}?text=${encodeURIComponent(message)}`, '_blank');
         }
