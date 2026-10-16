@@ -79,7 +79,7 @@
     const target = formId === 'auth' ? '#captcha-auth' : '#captcha-verify';
     const widgetId = window.turnstile.render(target, {
       sitekey: config.turnstileSiteKey,
-      theme: 'dark', language: 'es', appearance: 'always',
+      theme: 'dark', language: 'es', appearance: 'always', size: 'compact',
       'error-callback': () => status('No se pudo cargar la verificación antirrobots. Desactiva el bloqueador para este sitio y actualiza la página.', 'error'),
       'expired-callback': () => status('La comprobación de seguridad venció. Vuelve a completarla.', 'info')
     });
@@ -106,8 +106,12 @@
     script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
     script.async = true;
     script.onload = () => {
-      if (!authForm.hidden) captchaRender('auth');
-      if (!verifyForm.hidden) captchaRender('verify');
+      const renderVisible = () => {
+        if (!authForm.hidden) captchaRender('auth');
+        if (!verifyForm.hidden) captchaRender('verify');
+      };
+      if (window.turnstile?.ready) window.turnstile.ready(renderVisible);
+      else renderVisible();
     };
     script.onerror = () => status('La verificación antirrobots no está disponible. Revisa tu conexión e inténtalo de nuevo.', 'error');
     document.head.append(script);
@@ -171,7 +175,14 @@
       button.classList.toggle('active', active);
       button.setAttribute('aria-pressed', String(active));
     });
-    if (configured()) status(''); else available();
+    const ready = configured();
+    $('#auth-submit').disabled = !ready;
+    $('#recover').disabled = !ready;
+    $('#enter-code').disabled = !ready;
+    if (ready) status(''); else {
+      available();
+      $('#auth-submit').textContent = signUp ? 'Registro pendiente de activación' : 'Acceso pendiente de activación';
+    }
     captchaReset('auth');
     captchaRender('auth');
   }

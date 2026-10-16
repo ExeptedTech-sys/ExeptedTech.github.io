@@ -1,52 +1,28 @@
-# ExeptedTech — publicación y acceso de clientes
+# Publicar la actualización completa
 
-Revisión: 16 de octubre de 2026.
+1. Descomprime el ZIP.
+2. Abre tu repositorio existente en GitHub y la rama que publica tu página.
+3. Add file → Upload files. Arrastra todos los archivos y la carpeta assets desde DENTRO de la carpeta descomprimida. index.html debe estar en la raíz.
+4. Guarda con Commit changes y espera el despliegue correcto en Actions.
+5. Abre https://exeptedtech.xyz y actualiza con Ctrl+F5. En el teléfono, recarga la página o abre una pestaña privada para comprobar la versión nueva.
 
-## Estado real
+Esta versión lleva referencias de CSS y JavaScript con el identificador 20261016-release3 para evitar reutilizar los archivos de diseño de entregas anteriores.
 
-La página pública es estática y se puede subir a GitHub Pages. El catálogo, las cotizaciones y la sección de pagos no necesitan una cuenta. No hay carrito ni cobro automático: el botón Pagar lleva a los datos de transferencia y muestra el producto seleccionado. La recepción del dinero se comprueba manualmente.
+## Acceso de clientes
 
-El inicio de sesión y el registro NO están activos: `config.js` contiene `registrationEnabled: false` y `turnstileSiteKey: ''`. Hay URL y clave pública de Supabase, pero no se ha comprobado la configuración privada del proyecto, SMTP ni la entrega real de correos. El archivo original hacía referencia a una guía que no estaba incluida; esta guía cubre los pendientes de esta entrega.
+config.js incluye registrationEnabled: true y la Site Key pública proporcionada por el propietario. No es necesario editarlo para habilitar el formulario.
 
-## Activar las cuentas
+El propietario indicó haber configurado Turnstile en Supabase y Resend para el correo. Es necesario que la Secret Key de Supabase corresponda al mismo widget de Cloudflare. Los dominios autorizados son exeptedtech.xyz y www.exeptedtech.xyz. La Secret Key y las claves SMTP/Resend NO se publican en GitHub.
 
-1. Abre tu proyecto en Supabase. En Authentication, habilita el proveedor Email y la confirmación de correo. No desactives Confirm email: el formulario está diseñado para cuentas verificadas.
-2. Configura un proveedor SMTP propio para enviar correos a clientes. Si utilizas Resend, verifica tu dominio y su remitente y copia en Supabase los datos SMTP que te proporcione Resend. Las contraseñas SMTP y claves privadas van únicamente en los paneles de esos servicios.
-3. En las plantillas de confirmación de alta y recuperación, incluye `{{ .Token }}` para que el cliente pueda copiar el código. El sitio permite códigos numéricos de 6 a 10 dígitos. No depende de un enlace de confirmación: el usuario escribe el código en esta página.
-4. Configura la URL del sitio como `https://exeptedtech.xyz` y las URL de redirección que realmente utilices. Si pruebas en un dominio de GitHub Pages, agrégalo también. Comprueba que CNAME y DNS apuntan al dominio deseado.
-5. Crea un widget de Cloudflare Turnstile para los dominios donde publicarás. Registra su clave secreta en la protección CAPTCHA de Supabase. Copia solamente su clave pública en `turnstileSiteKey` dentro de `config.js`.
-6. Completa los datos de contacto que el aviso de privacidad original marca como pendientes. Si creas tablas de perfiles, pedidos u otros datos, configura sus políticas RLS antes de exponerlas. Esta versión solo utiliza Supabase Auth; no crea tablas de pedidos ni notificaciones administrativas.
-7. Cambia `registrationEnabled` a `true` cuando termines los pasos anteriores y publica `config.js`. Eso habilita los formularios; no sustituye las pruebas siguientes.
-8. Prueba con una cuenta de correo tuya: alta → recepción de código → verificación → cerrar sesión → iniciar sesión → recuperar contraseña → nuevo acceso. Prueba también contraseña incorrecta, código vencido y reenvío. No entregues el registro a clientes hasta completar esta prueba real.
+Las plantillas de confirmación y recuperación deben incluir {{ .Token }} para introducir el código numérico en la página. El campo acepta de 6 a 10 dígitos. Mantén la confirmación de correo habilitada en Supabase.
 
-La sesión se guarda solo en memoria. Recargar la página exige volver a entrar. No incluye historial de compras ni panel de administración. Un registro de usuario por sí solo no demuestra que un pago se haya recibido.
+Prueba con tu correo: alta → código recibido → verificación → cerrar sesión → iniciar sesión → recuperación. Si falla, identifica el mensaje de la página y comprueba el registro correspondiente de Supabase o Resend. No compartas contraseñas ni códigos.
 
-Nunca subas a GitHub la API privada de Resend, la contraseña SMTP, una clave `service_role`, `sb_secret_` o la clave secreta de Turnstile. La clave `sb_publishable_` existente es pública por diseño.
+La sesión se mantiene en memoria; al recargar se vuelve a iniciar sesión. El sitio no incluye historial de compras ni verificación automática de pagos.
 
-## Subir a GitHub Pages
+## Documentación técnica
 
-1. Descomprime el ZIP en tu computadora.
-2. Abre el repositorio de tu sitio y reemplaza sus archivos por el contenido de esta carpeta. `index.html` debe quedar en la raíz, no dentro de otra carpeta ni dentro de un ZIP.
-3. Incluye `experience.css`, `experience.js`, los archivos originales actualizados, la carpeta `assets`, `CNAME` y `.nojekyll`.
-4. Guarda los cambios con Commit changes. En Settings → Pages, utiliza la rama de publicación correspondiente y la carpeta raíz.
-5. Cuando termine el despliegue, abre el sitio y actualiza con Ctrl+F5. Comprueba Catálogo, Canciones IA, cotización, Pagar y los enlaces de privacidad.
-6. Confirma en tu banco que la CLABE y el beneficiario conservados del sitio original son correctos. No se han validado con una entidad bancaria.
-
-## Qué incluye la mejora
-
-- Identidad azul eléctrico, tarjetas con profundidad y luces, vinilo y ecualizador decorativos, transiciones y efectos suaves.
-- Diseño adaptado a pantallas pequeñas y respeto de la preferencia de reducir movimiento.
-- Canciones con IA desde $250 MXN, dos versiones, corrido/rap/reggaetón y entrega anunciada de 1 a 3 días a confirmar.
-- Formulario de solicitud musical que prepara el mensaje de WhatsApp sin enviarlo automáticamente.
-- Cotización y Pagar en todos los productos del catálogo, paquetes web y servicios vendidos.
-- Selección de producto y concepto en pagos, y mensaje de comprobante con el producto elegido.
-
-## Referencias técnicas para configurar
-
-- https://supabase.com/docs/guides/auth/auth-email-templates
-- https://supabase.com/docs/guides/auth/auth-captcha
-- https://supabase.com/docs/guides/auth/auth-smtp
-
-## Límites de la revisión
-
-Consulta `VERIFICACION.md`. La comprobación del código no equivale a probar SMTP, cobros, disponibilidad de servicios externos o el aspecto visual en navegadores y teléfonos reales.
+https://supabase.com/docs/guides/auth/auth-captcha
+https://supabase.com/docs/guides/auth/auth-smtp
+https://supabase.com/docs/guides/auth/auth-email-templates
+https://developers.cloudflare.com/turnstile/get-started/client-side-rendering/widget-configurations/

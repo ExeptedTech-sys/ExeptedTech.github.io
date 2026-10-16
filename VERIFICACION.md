@@ -1,25 +1,26 @@
-# Verificación de esta entrega
+# Revisión completa 3 — 16 de octubre de 2026
 
-16 de octubre de 2026.
+## Resultado comprobado
 
-## Comprobado
+- Sintaxis de app.js, account.js, experience.js y responsive.js válida.
+- Archivos locales y destinos de enlaces internos existentes; IDs sin duplicados.
+- Carga de las nuevas hojas y scripts con versión para evitar caché de archivos anteriores.
+- Revisión de reglas para 1150, 900, 680, 460 y 359 px: columnas fluidas, formulario a una columna, entradas de 16 px, botones táctiles y captcha compacto. Esto es revisión del código; no una prueba visual.
+- Pruebas de autenticación con DOM y servidor simulados: bloqueo de acceso no configurado, contraseñas diferentes, alta, código, acceso, cierre, error de credenciales, recuperación y actualización de contraseña. Resultado: correcto.
+- Consulta real al endpoint público de Supabase: responde, permite registros, tiene Email habilitado y exige confirmación de correo.
+- Menú comprobado con DOM simulado: apertura, selección, cierre exterior, Escape, cambio a escritorio y gestión de foco; progreso de lectura y pausa al ocultar la pestaña.
+- Los datos de transferencia y los enlaces originales se conservan. No se efectuaron pagos ni se enviaron mensajes.
 
-- Sintaxis válida de app.js, account.js y experience.js con Node.
-- Archivos locales y destinos de enlaces internos presentes; sin IDs duplicados en HTML.
-- Los 23 productos del catálogo y los 8 servicios/paquetes vendidos incluyen cotización y Pagar.
-- Todos los filtros conservan el acceso a pagos. Al seleccionar un producto, su nombre y concepto aparecen en la sección de pagos.
-- La canción utiliza el concepto Cancion, anuncia desde $250 MXN y prepara un mensaje de cotización musical.
-- Los botones de WhatsApp contienen el producto o la solicitud elegida, sin enviar mensajes automáticamente.
-- Menú: apertura, cierre con Escape y estado accesible.
-- Con la configuración entregada, el formulario informa que el acceso está en preparación y no intenta crear cuentas.
-- Con configuración de prueba y respuestas de servidor simuladas: rechazo de contraseñas diferentes, alta, verificación por código, acceso, cierre de sesión, recuperación y cambio de contraseña.
-- Compatibilidad del campo de código con 6 a 10 dígitos y verificación de correo con tipo email.
-- Se conservan CNAME, .nojekyll, logotipos, RetroLib, datos de transferencia y páginas legales del sitio original.
+## Verificaciones externas pendientes
 
-## Pendiente de comprobar en producción
+El registro está habilitado en config.js con la Site Key pública proporcionada por el propietario. El propietario indicó haber guardado la Secret Key en Supabase. La respuesta pública de Supabase no confirma la configuración privada de CAPTCHA ni SMTP. No se creó una cuenta real, no se entregó un código real y no se comprobó la llegada del correo.
 
-No se realizó una inspección visual en navegador ni pruebas en teléfonos físicos: no había disponible un controlador de navegador para esta tarea. Las pruebas de interacción se ejecutaron sobre un DOM simulado; no validan el renderizado CSS, CSP, accesibilidad completa ni la entrega de correos.
+No hubo disponible un controlador de navegador de pruebas para renderizar esta entrega. No se ha probado visualmente en Safari, Chrome, Android, iOS, macOS o Windows. No se garantiza ausencia de fallos visuales; se requiere revisar la publicación en los dispositivos del usuario. Las pruebas simuladas no validan la ejecución del captcha externo ni el comportamiento del teclado de un teléfono real.
 
-No se accedió al panel privado de Supabase, Resend o Cloudflare. No se crearon cuentas reales, no se enviaron correos, no se hicieron transferencias ni se probó disponibilidad de los servicios externos. No se publicó el sitio ni se modificó un repositorio de GitHub.
+## Cambios de presentación
 
-Antes de activar clientes, completa CONFIGURACION_Y_PUBLICACION.md y realiza una prueba real del flujo de correo. Antes de anunciar pagos, verifica los datos bancarios existentes. El botón Pagar lleva a transferencia manual; no es un checkout ni confirma pagos automáticamente.
+Menú adaptable hasta 1150 px, tarjetas amplias por debajo de 460 px, formularios sin tamaños mínimos que fuercen columnas estrechas, campos legibles, espacios para las zonas de seguridad del teléfono y animaciones de entrada. Se pausa la decoración fuera de pantalla y en pestañas ocultas; se respeta reducir movimiento. El menú cierra con selección, Escape, pulsación exterior o cambio a pantalla grande.
+
+## Comprobación tras subir
+
+Abre la página en vertical y horizontal. Comprueba menú, catálogo, cotización, pagos, formulario de canciones y pestañas de cuentas. Completa la configuración indicada antes de probar el alta real. El ZIP no publica cambios automáticamente.

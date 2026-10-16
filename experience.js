@@ -25,20 +25,4 @@
     window.open(whatsapp(message), '_blank', 'noopener,noreferrer');
   });
   document.querySelector('#song-brief input').addEventListener('input', event => event.target.setCustomValidity(''));
-  document.querySelector('#menu').addEventListener('click', () => {
-    const open = document.querySelector('#menu').getAttribute('aria-expanded') === 'true';
-    document.querySelector('#menu').setAttribute('aria-label', open ? 'Cerrar menú' : 'Abrir menú');
-  });
-  document.addEventListener('keydown', event => {
-    if (event.key === 'Escape') {
-      const nav = document.querySelector('#nav');
-      if (nav.classList.contains('open')) {
-        nav.classList.remove('open');
-        const button = document.querySelector('#menu');
-        button.setAttribute('aria-expanded','false');
-        button.setAttribute('aria-label','Abrir menú');
-        button.focus();
-      }
-    }
-  });
 })();
