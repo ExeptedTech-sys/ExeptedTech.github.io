@@ -1,0 +1,11 @@
+EXEPTEDTECH · GITHUB PAGES · ACTUALIZACION VERIFICADA LOCALMENTE
+
+1. No crees otro repositorio. Actualiza el que ya publica exeptedtech.xyz.
+2. Haz un respaldo y descomprime este ZIP.
+3. Copia los archivos DESCOMPRIMIDOS a la raíz de tu repositorio (GitHub Desktop es lo más confiable para reemplazar varios a la vez).
+4. El ZIP NO trae config.js a propósito: conserva el que ya está en GitHub. Allí están tus claves PÚBLICAS de Supabase y Turnstile.
+5. No publiques secretos: claves privadas de Turnstile, service_role, claves de Resend, contraseñas SMTP.
+6. GitHub → Actions debe mostrar el despliegue correcto. En Settings → Pages se conserva el dominio y la rama actual.
+7. Verifica #cuenta, contraseña RetroLib, Drive, WhatsApp, Pagos, robots.txt, sitemap.xml y la visualización móvil.
+8. Prueba real de registro: CAPTCHA + pulsar Crear cuenta. Supabase/Resend deben registrar y entregar un correo real. Las pruebas locales NO verifican el envío real.
+9. Consulta GUIA_PUBLICACION.md para instrucciones detalladas y precauciones.

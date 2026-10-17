@@ -15,39 +15,49 @@
   const CAPTCHA = Boolean(config.turnstileSiteKey);
   const captchaWidgets = new Map();
 
-  const configured = () => config.registrationEnabled === true &&
+  const configured = () =>
     /^https:\/\/[a-z0-9-]+\.supabase\.co$/.test(config.supabaseUrl || '') &&
     /^(sb_publishable_|eyJ)/.test(config.supabaseAnonKey || '') && CAPTCHA;
 
   function status(message, kind = 'info') {
-    const field = $('#auth-status');
-    field.textContent = message;
-    field.dataset.kind = kind;
+    for (const selector of ['#auth-status', '#auth-action-status', '#verify-action-status']) {
+      const field = $(selector);
+      if (!field) continue;
+      field.textContent = message;
+      field.dataset.kind = kind;
+    }
   }
 
-  function available() {
-    if (configured()) return true;
-    status('El acceso de clientes está en preparación. Pronto podrás registrarte y verificar tu correo. Mientras tanto, puedes solicitar información por WhatsApp.', 'info');
-    return false;
+  function available(action = 'signup') {
+    if (!configured()) {
+      status('Acceso sin configurar: falta la clave pública de Turnstile o la conexión pública con Supabase. No se ha enviado ningún registro.', 'error');
+      return false;
+    }
+    if (action === 'signup' && config.registrationEnabled !== true) {
+      status('Crear cuentas está desactivado en config.js (registrationEnabled: false). El CAPTCHA por sí solo no crea cuentas.', 'error');
+      return false;
+    }
+    return true;
   }
 
   function failure(error) {
-    if (error?.name === 'AbortError') return status('La conexión tardó demasiado. Inténtalo nuevamente.', 'error');
-    if (error?.http === 429 || error?.code === 'over_email_send_rate_limit' || error?.code === 'over_request_rate_limit')
-      return status('Se alcanzó el límite de solicitudes. Espera unos minutos y vuelve a intentarlo.', 'error');
-    if (error?.code === 'email_not_confirmed')
-      return status('Todavía falta confirmar ese correo. Selecciona “Ya tengo un código de verificación”.', 'error');
-    if (error?.code === 'invalid_credentials')
-      return status('No pudimos iniciar sesión. Comprueba tu correo y contraseña.', 'error');
-    if (error?.code === 'captcha_failed' || error?.code === 'captcha_invalid')
-      return status('La verificación de seguridad no se completó. Inténtalo de nuevo.', 'error');
-    if (error?.code === 'weak_password')
-      return status('La contraseña fue rechazada por seguridad. Elige otra más larga y diferente.', 'error');
-    if (error?.code === 'signup_disabled')
-      return status('El registro todavía no está habilitado en Supabase. Comunícate con soporte.', 'error');
-    if (error?.code === 'otp_expired' || error?.code === 'otp_disabled')
-      return status('El código ya no es válido. Solicita uno nuevo.', 'error');
-    status('No pudimos completar esta operación. Comprueba tu conexión y los datos. Si el problema continúa, intenta más tarde.', 'error');
+    if (error?.name === 'AbortError') return status('El servidor no respondió en 20 segundos. Comprueba tu conexión e inténtalo de nuevo.', 'error');
+    const code = error?.code || '';
+    let message = 'No se pudo completar la solicitud.';
+    if (error?.http === 429 || /rate_limit|over_request|over_email_send/.test(code)) message = 'Se alcanzó el límite de solicitudes de Supabase o de envíos. Espera antes de volver a intentarlo.';
+    else if (code === 'email_not_confirmed') message = 'Debes confirmar el correo antes de iniciar sesión. Usa “Ya tengo un código”.';
+    else if (code === 'invalid_credentials') message = 'Correo o contraseña incorrectos.';
+    else if (/captcha|security/.test(code)) message = 'Turnstile ha sido rechazado por Supabase. Comprueba que la SECRET KEY corresponda a la SITE KEY y que CAPTCHA esté activado en Authentication → Attack Protection.';
+    else if (code === 'weak_password') message = 'Supabase rechazó la contraseña por seguridad. Usa otra más larga y distinta.';
+    else if (code === 'signup_disabled') message = 'Supabase no permite nuevos registros. Revisa Authentication → Sign In / Providers.';
+    else if (/email.*invalid/.test(code)) message = 'Supabase rechazó la dirección de correo. Comprueba que sea válida.';
+    else if (code === 'otp_expired' || code === 'otp_disabled') message = 'Código caducado o incorrecto. Solicita uno nuevo.';
+    else if (error?.http === 401 || error?.http === 403) message = 'Supabase rechazó las credenciales de acceso al proyecto o la protección antirrobots. Revisa config.js y Attack Protection.';
+    else if (error?.http >= 500) message = 'Error interno de Supabase o en el envío de correo. Revisa Authentication → Logs y Resend → Logs.';
+    else if (error?.http === 400 || error?.http === 422) message = 'Supabase rechazó el registro. Revisa el código de diagnóstico y Authentication → Logs.';
+    else if (error?.name === 'TypeError') message = 'No fue posible conectar con Supabase. Comprueba Internet, bloqueo de scripts, permisos del navegador y la URL configurada.';
+    const detail = error?.http ? ` (HTTP ${error.http}${code ? ` · ${code}` : ''})` : '';
+    status(message + detail, 'error');
   }
 
   async function request(path, body, token = null, method = 'POST') {
@@ -63,7 +73,7 @@
       const data = await response.json().catch(() => ({}));
       if (!response.ok) {
         const error = new Error('Authentication request failed');
-        error.code = data.error_code || data.code || '';
+        error.code = data.error_code || data.code || data.error || '';
         error.http = response.status;
         throw error;
       }
@@ -79,7 +89,8 @@
     const target = formId === 'auth' ? '#captcha-auth' : '#captcha-verify';
     const widgetId = window.turnstile.render(target, {
       sitekey: config.turnstileSiteKey,
-      theme: 'dark', language: 'es', appearance: 'always', size: 'compact',
+      theme: 'dark', language: 'es', appearance: 'always',
+      'callback': token => { if (token) status('Seguridad verificada. Ahora pulsa el botón para enviar la solicitud; completar el CAPTCHA no crea la cuenta.', 'success'); },
       'error-callback': () => status('No se pudo cargar la verificación antirrobots. Desactiva el bloqueador para este sitio y actualiza la página.', 'error'),
       'expired-callback': () => status('La comprobación de seguridad venció. Vuelve a completarla.', 'info')
     });
@@ -101,17 +112,13 @@
   }
 
   function loadCaptcha() {
-    if (!CAPTCHA || config.registrationEnabled !== true) return;
+    if (!CAPTCHA) return;
     const script = document.createElement('script');
     script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
     script.async = true;
     script.onload = () => {
-      const renderVisible = () => {
-        if (!authForm.hidden) captchaRender('auth');
-        if (!verifyForm.hidden) captchaRender('verify');
-      };
-      if (window.turnstile?.ready) window.turnstile.ready(renderVisible);
-      else renderVisible();
+      if (!authForm.hidden) captchaRender('auth');
+      if (!verifyForm.hidden) captchaRender('verify');
     };
     script.onerror = () => status('La verificación antirrobots no está disponible. Revisa tu conexión e inténtalo de nuevo.', 'error');
     document.head.append(script);
@@ -119,13 +126,18 @@
 
   async function busy(form, action) {
     const buttons = [...form.querySelectorAll('button')];
+    const primary = form.querySelector('button[type=submit]');
+    const original = primary?.innerHTML;
     buttons.forEach(button => { button.disabled = true; });
+    if (primary) primary.textContent = 'Enviando solicitud…';
+    status('Conectando con Supabase y comprobando la solicitud…', 'info');
     form.setAttribute('aria-busy', 'true');
     try { await action(); }
     catch (error) { failure(error); }
     finally {
       form.removeAttribute('aria-busy');
       buttons.forEach(button => { button.disabled = false; });
+      if (primary && original !== undefined) primary.innerHTML = original;
     }
   }
 
@@ -175,14 +187,8 @@
       button.classList.toggle('active', active);
       button.setAttribute('aria-pressed', String(active));
     });
-    const ready = configured();
-    $('#auth-submit').disabled = !ready;
-    $('#recover').disabled = !ready;
-    $('#enter-code').disabled = !ready;
-    if (ready) status(''); else {
-      available();
-      $('#auth-submit').textContent = signUp ? 'Registro pendiente de activación' : 'Acceso pendiente de activación';
-    }
+    if (configured() && (next === 'login' || config.registrationEnabled === true)) status('');
+    else available(next);
     captchaReset('auth');
     captchaRender('auth');
   }
@@ -201,8 +207,7 @@
   }
 
   document.querySelectorAll('[data-auth-mode]').forEach(button => button.addEventListener('click', () => {
-    if (document.querySelector('[aria-busy="true"]')) return;
-    if (session) return status('Finaliza la recuperación o cierra tu sesión antes de cambiar de cuenta.', 'info');
+    if (session) return status('Cierra tu sesión antes de iniciar con otra cuenta.', 'info');
     setMode(button.dataset.authMode);
   }));
 
@@ -227,7 +232,7 @@
 
   authForm.addEventListener('submit', event => {
     event.preventDefault();
-    if (!available()) return;
+    if (!available(mode)) return;
     const email = authForm.elements.email.value.trim().toLowerCase();
     const password = authForm.elements.password.value;
     if (mode === 'signup') {
@@ -264,13 +269,13 @@
         pendingType = 'signup';
         lastSent = Date.now();
         showVerification('signup');
-        status('Si procede el registro, recibirás un código de verificación. Ingresa el más reciente. No lo compartas.', 'success');
+        status('Si procede el registro, recibirás un código de 6 dígitos. Ingresa el más reciente. No lo compartas.', 'success');
       } finally { captchaReset('auth'); }
     });
   });
 
   $('#enter-code').addEventListener('click', () => {
-    if (!available()) return;
+    if (!available('signup')) return;
     if (!authForm.elements.email.reportValidity()) return;
     pendingEmail = authForm.elements.email.value.trim().toLowerCase();
     showVerification('signup');
@@ -279,12 +284,12 @@
 
   verifyForm.addEventListener('submit', event => {
     event.preventDefault();
-    if (!available()) return;
+    if (!available('login')) return;
     busy(verifyForm, async () => {
       const data = await request('verify', {
         email: pendingEmail,
         token: verifyForm.elements.token.value.trim(),
-        type: pendingType === 'signup' ? 'email' : pendingType
+        type: pendingType
       });
       verifyForm.elements.token.value = '';
       if (pendingType === 'recovery') {
@@ -301,7 +306,7 @@
   });
 
   $('#resend').addEventListener('click', () => {
-    if (!available()) return;
+    if (!available('signup')) return;
     if (Date.now() - lastSent < 60000) return status('Espera al menos un minuto antes de solicitar otro código.', 'info');
     const token = captchaToken('verify');
     if (!token) return;
@@ -324,7 +329,7 @@
   });
 
   $('#recover').addEventListener('click', () => {
-    if (!available()) return;
+    if (!available('login')) return;
     if (!authForm.elements.email.reportValidity()) return;
     const token = captchaToken('auth');
     if (!token) return;
