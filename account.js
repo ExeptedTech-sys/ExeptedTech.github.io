@@ -53,7 +53,7 @@
     else if (/email.*invalid/.test(code)) message = 'Supabase rechazó la dirección de correo. Comprueba que sea válida.';
     else if (code === 'otp_expired' || code === 'otp_disabled') message = 'Código caducado o incorrecto. Solicita uno nuevo.';
     else if (error?.http === 401 || error?.http === 403) message = 'Supabase rechazó las credenciales de acceso al proyecto o la protección antirrobots. Revisa config.js y Attack Protection.';
-    else if (error?.http >= 500) message = 'Error interno de Supabase o en el envío de correo. Revisa Authentication → Logs y Resend → Logs.';
+    else if (error?.http >= 500) message = 'Error HTTP 500 del servidor de Supabase. Puede ser SMTP/Resend, plantilla de correo o un trigger de base de datos. No se soluciona modificando el CAPTCHA. Abre Authentication → Logs y busca la hora exacta de este intento; si se menciona SMTP revisa Resend → Logs.';
     else if (error?.http === 400 || error?.http === 422) message = 'Supabase rechazó el registro. Revisa el código de diagnóstico y Authentication → Logs.';
     else if (error?.name === 'TypeError') message = 'No fue posible conectar con Supabase. Comprueba Internet, bloqueo de scripts, permisos del navegador y la URL configurada.';
     const detail = error?.http ? ` (HTTP ${error.http}${code ? ` · ${code}` : ''})` : '';
@@ -89,7 +89,7 @@
     const target = formId === 'auth' ? '#captcha-auth' : '#captcha-verify';
     const widgetId = window.turnstile.render(target, {
       sitekey: config.turnstileSiteKey,
-      theme: 'dark', language: 'es', appearance: 'always',
+      theme: 'dark', language: 'es', appearance: 'always', size: window.innerWidth < 360 ? 'compact' : 'normal',
       'callback': token => { if (token) status('Seguridad verificada. Ahora pulsa el botón para enviar la solicitud; completar el CAPTCHA no crea la cuenta.', 'success'); },
       'error-callback': () => status('No se pudo cargar la verificación antirrobots. Desactiva el bloqueador para este sitio y actualiza la página.', 'error'),
       'expired-callback': () => status('La comprobación de seguridad venció. Vuelve a completarla.', 'info')
@@ -269,7 +269,7 @@
         pendingType = 'signup';
         lastSent = Date.now();
         showVerification('signup');
-        status('Si procede el registro, recibirás un código de 6 dígitos. Ingresa el más reciente. No lo compartas.', 'success');
+        status('Si procede el registro, recibirás un código de 8 dígitos. Ingresa el más reciente. No lo compartas.', 'success');
       } finally { captchaReset('auth'); }
     });
   });
@@ -282,13 +282,22 @@
     status('Ingresa el código que recibiste al registrarte. Si ya expiró, pide otro.', 'info');
   });
 
+  // El servidor de este proyecto envía un OTP de 8 dígitos.
+  // Se conserva como texto para no eliminar ceros iniciales.
+  verifyForm.elements.token.addEventListener('input', () => {
+    const field = verifyForm.elements.token;
+    field.value = field.value.replace(/\D/g, '').slice(0, 8);
+  });
+
   verifyForm.addEventListener('submit', event => {
     event.preventDefault();
     if (!available('login')) return;
+    const verificationCode = verifyForm.elements.token.value.trim();
+    if (!/^\d{8}$/.test(verificationCode)) return status('Introduce los 8 dígitos exactos del correo de verificación.', 'error');
     busy(verifyForm, async () => {
       const data = await request('verify', {
         email: pendingEmail,
-        token: verifyForm.elements.token.value.trim(),
+        token: verificationCode,
         type: pendingType
       });
       verifyForm.elements.token.value = '';

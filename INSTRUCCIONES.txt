@@ -1,0 +1,19 @@
+EXEPTEDTECH | CORRECCION DEL CODIGO OTP DE 8 DIGITOS
+
+Tu SMTP ya funciona. No cambies nada en Resend ni Supabase.
+
+El ultimo sitio publicado recibia codigo de 8 digitos, pero index.html restringia el campo a 6.
+Esta actualizacion contiene UNICAMENTE:
+- index.html: etiqueta, longitud, patron y placeholder de 8 digitos; nuevo versionado de account.js.
+- account.js: instrucciones de 8 digitos, saneamiento de pegado y validacion antes de enviar a Supabase.
+
+COMO SUBIR A GITHUB:
+1. Abre tu repositorio actual en GitHub.
+2. En la raiz del repositorio, abre index.html, pulsa el icono de editar (lapiz), pega el contenido del index.html nuevo y guarda (Commit changes).
+3. Repite con account.js, sustituyendo su contenido completo. Esto conserva el sitio actual y NO toca config.js.
+4. Alternativamente, usa GitHub Desktop: copia estos dos archivos en la carpeta local del repositorio, reemplazalos, Commit y Push origin.
+5. Espera a que GitHub Pages termine en Actions.
+6. Visita https://exeptedtech.xyz/#cuenta en ventana privada; deberia pedir 8 digitos. Introduce los 8 numeros recibidos.
+7. Si el codigo caduco, usa Reenviar codigo.
+
+Nunca subas secretos SMTP, API keys de Resend, ni una service_role de Supabase al repositorio.
