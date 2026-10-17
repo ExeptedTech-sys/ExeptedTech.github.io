@@ -1,28 +1,49 @@
-/* Purchase routing is delegated so filtering never removes payment behavior. */
+/* ExeptedTech Experience, progressive enhancement. No personal data sent to third parties here. */
 (() => {
   'use strict';
-  const phone = '525566147938';
-  const whatsapp = message => `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
-  document.addEventListener('click', event => {
-    const link = event.target.closest('a[data-pay-product]');
-    if (!link) return;
-    const product = link.dataset.payProduct;
-    const concept = link.dataset.payConcept || 'Acordar por WhatsApp';
-    document.querySelector('#payment-product').textContent = product;
-    document.querySelector('#payment-concept').textContent = concept;
-    const panel = document.querySelector('#payment-selection');
-    panel.hidden = false;
-    document.querySelector('#payment-quote').href = whatsapp(`Hola ExeptedTech, quiero solicitar cotización y confirmar el importe y la disponibilidad de ${product} antes de pagar.`);
-    document.querySelector('.bank-content .text-link').href = whatsapp(`Hola ExeptedTech, quiero enviar mi comprobante. Producto: ${product}. Concepto: ${concept}. Importe acordado: `);
-    requestAnimationFrame(() => panel.focus({preventScroll:true}));
+  const $ = (sel,root=document)=>root.querySelector(sel);
+  const $$ = (sel,root=document)=>Array.from(root.querySelectorAll(sel));
+  const money = cents => new Intl.NumberFormat('es-MX',{style:'currency',currency:'MXN',maximumFractionDigits:0}).format(cents/100);
+  const planPrice = { personal:null, business:180000, 'business-plus':280000, vip:480000 };
+  const maintenance = { personal:['web-personal-maint',25000], business:['web-business-maint',25000], 'business-plus':['web-business-plus-maint',25000], vip:['web-vip-maint',100000] };
+  const productSku = {personal:'web-personal',business:'web-business','business-plus':'web-business-plus',vip:'web-vip'};
+  function wa(message) { window.open('https://wa.me/525566147938?text='+encodeURIComponent(message),'_blank','noopener,noreferrer'); }
+  function updatePlan(card) {
+    const slug=card.dataset.plan,extra=card.querySelector('.xt-plan-option')?.checked;
+    const amount=planPrice[slug],mnt=maintenance[slug];
+    const description=card.querySelector('.xt-plan-total');
+    description.textContent=amount===null
+      ? (extra?`Sitio: a cotizar · mantenimiento opcional: ${money(mnt[1])} por 15 días.`:'Sitio: a cotizar. El mantenimiento se contrata aparte.')
+      :`Tu selección: ${money(amount+(extra?mnt[1]:0))} MXN${extra?' · incluye un primer periodo de mantenimiento':''}.`;
+  }
+  $$('.xt-plan').forEach(card=>{
+    const slug=card.dataset.plan;
+    $('.xt-plan-option',card)?.addEventListener('change',()=>updatePlan(card));
+    $('[data-configure-plan]',card)?.addEventListener('click',()=>{
+      const included=$('.xt-plan-option',card)?.checked||false;
+      if(planPrice[slug]===null){
+        wa(`Hola ExeptedTech, quiero cotizar el paquete Exepted Personal para mi blog o sitio sencillo.${included?' También quiero mantenimiento de $250 por 15 días.':''} Confírmenme el precio final, el dominio por separado y el alcance.`);return;
+      }
+      const items=[productSku[slug]];
+      if(included) items.push(maintenance[slug][0]);
+      document.dispatchEvent(new CustomEvent('exepted:add-to-cart',{detail:{skus:items}}));
+    });
+    updatePlan(card);
   });
-  document.querySelector('#song-brief').addEventListener('submit', event => {
-    event.preventDefault();
-    const form = event.currentTarget;
-    const occasion = form.elements.occasion.value.trim();
-    if (!occasion) { form.elements.occasion.setCustomValidity('Cuéntanos la ocasión o para quién es.'); form.elements.occasion.reportValidity(); return; }
-    const message = `Hola ExeptedTech, quiero cotizar una canción personalizada con IA desde $250 MXN, con dos versiones. Ritmo: ${form.elements.genre.value}. Ocasión o destinatario: ${occasion}. ¿Me confirmas el precio final y la entrega de 1 a 3 días?`;
-    window.open(whatsapp(message), '_blank', 'noopener,noreferrer');
-  });
-  document.querySelector('#song-brief input').addEventListener('input', event => event.target.setCustomValidity(''));
+  $$('[data-add-sku]').forEach(btn=>btn.addEventListener('click',()=>{
+    document.dispatchEvent(new CustomEvent('exepted:add-to-cart',{detail:{sku:btn.dataset.addSku}}));
+  }));
+  // Cookie notice is informational; no non-essential tracking is installed by this code.
+  const notice=$('#xt-cookie-banner');
+  const choiceKey='exeptedtech-privacy-notice-v1';
+  if(notice){
+    let dismissed=false;
+    try { dismissed=localStorage.getItem(choiceKey)==='seen'; }catch{}
+    notice.hidden=dismissed;
+    $('#xt-cookie-close')?.addEventListener('click',()=>{
+      notice.hidden=true;
+      try{localStorage.setItem(choiceKey,'seen');}catch{}
+    });
+  }
+  // No always-on canvas or mousemove listeners; style enhancements are GPU-safe CSS.
 })();

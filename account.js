@@ -148,6 +148,7 @@
       return;
     }
     session = data;
+    document.dispatchEvent(new CustomEvent('exepted:auth', {detail:{session}}));
     authForm.reset();
     verifyForm.reset();
     resetForm.reset();
@@ -371,6 +372,7 @@
   $('#logout').addEventListener('click', async () => {
     const active = session;
     session = null;
+    document.dispatchEvent(new CustomEvent('exepted:auth', {detail:{session:null}}));
     authForm.reset();
     if (active?.access_token) {
       try { await request('logout', {}, active.access_token); } catch { /* Borrar la sesión local aunque no responda la red. */ }
@@ -379,6 +381,7 @@
     status('Sesión cerrada. Los datos de acceso ya no están en esta página.', 'success');
   });
 
+  window.EXEPTED_AUTH = Object.freeze({getSession:()=>session});
   setMode('signup');
   loadCaptcha();
 })();

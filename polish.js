@@ -6,33 +6,8 @@
   const $$ = (s, root = document) => [...root.querySelectorAll(s)];
   const body = document.body;
 
-  // --- Enlace de pago configurable y seguro ---
-  const checkout = $('#card-pay-link');
-  if (checkout) {
-    const configuredUrl = window.EXEPTED_CONFIG?.paymentCheckoutUrl || '';
-    let valid = false;
-    try {
-      const dest = new URL(configuredUrl);
-      valid = dest.protocol === 'https:' && /(^|\.)(stripe\.com|mercadopago\.com\.mx|mercadopago\.com|mpago\.la)$/.test(dest.hostname);
-    } catch {}
-
-    if (valid) {
-      checkout.href = configuredUrl;
-      checkout.textContent = 'Pagar con tarjeta en plataforma segura ↗';
-      checkout.target = '_blank';
-      checkout.rel = 'noopener noreferrer';
-      checkout.removeAttribute('aria-disabled');
-      checkout.closest('.card-checkout')?.querySelector('.card-checkout-eyebrow')?.replaceChildren(document.createTextNode('PAGO SEGURO CON TARJETA'));
-    } else {
-      checkout.href = 'https://wa.me/525566147938?text=' + encodeURIComponent('Hola ExeptedTech, quiero pagar una compra con tarjeta. ¿Tienen un enlace de cobro seguro y me dicen la comisión total?');
-      checkout.target = '_blank';
-      checkout.rel = 'noopener noreferrer';
-      checkout.removeAttribute('aria-disabled');
-    }
-  }
-
-  // --- Navegación rápida a pagos ---
-  $('#card-pay-link, .mobile-pay-nav')?.addEventListener?.('click', () => {
+  // Pago manual por enlace externo: el formulario y las verificaciones se manejan en mercadopago.js.
+  $('.mobile-pay-nav')?.addEventListener('click', () => {
     $('#nav')?.classList.remove('open');
     $('#menu')?.setAttribute('aria-expanded', 'false');
   });
@@ -40,6 +15,8 @@
   // --- Acceso modal: formulario REAL de Supabase, sin duplicar nodos/IDs ---
   const authOverlay = $('#auth-overlay');
   const authPanel = $('#auth-panel');
+  const authSection = $('#cuenta');
+  if (authOverlay && authSection) authSection.prepend(authOverlay); // conserva el widget CAPTCHA en su nodo original
   let lastAuthTrigger = null;
   const closePortal = () => {
     if (!authOverlay || authOverlay.hidden) return;
