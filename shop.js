@@ -7,7 +7,10 @@
   const $ = sel => document.querySelector(sel);
   const cartKey = 'exeptedtech-cart-v1';
   const waHelp = p => 'https://wa.me/525566147938?text='+encodeURIComponent(`Hola ExeptedTech, necesito asistencia sobre ${p.name}. ¿Me ayudan con disponibilidad, condiciones y cómo comprar?`);
-  const pesos = cents => new Intl.NumberFormat('es-MX',{style:'currency',currency:'MXN'}).format(cents/100);
+  const currencyFormatter = new Intl.NumberFormat('es-MX',{style:'currency',currency:'MXN'});
+  const pesos = cents => currencyFormatter.format(cents/100);
+  const normalizeSearch = value => String(value).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLocaleLowerCase('es');
+  const indexedCatalog = catalog.map(p => ({ product:p, search:normalizeSearch(p.name+' '+p.description) }));
   const validQ = n => Number.isInteger(n) && n > 0 && n <= 10;
   let cart = {};
   let session = window.EXEPTED_AUTH?.getSession?.() || null;
@@ -33,10 +36,10 @@
   const lines = () => Object.entries(cart).map(([sku,q]) => ({...bySku.get(sku),q})).filter(x=>x.sku);
   function renderStore() {
     const filter = $('#store-category').value;
-    const search = $('#store-search').value.trim().toLocaleLowerCase('es');
-    const list = catalog.filter(p => (filter==='all'||p.category===filter) && `${p.name} ${p.description}`.toLocaleLowerCase('es').includes(search));
+    const search = normalizeSearch($('#store-search').value.trim());
+    const list = indexedCatalog.filter(row => (filter==='all'||row.product.category===filter) && row.search.includes(search)).map(row=>row.product);
     const grid = $('#store-items');
-    grid.replaceChildren();
+    const fragment=document.createDocumentFragment();
     for (const product of list) {
       const card = make('article','store-card');
       const meta = make('div','store-card-meta');
@@ -62,8 +65,9 @@
         setTimeout(()=>button.textContent='Agregar al carrito +',950);
       });
       const help=make('a','xt-store-help','Asistencia y ayuda ↗');help.href=waHelp(product);help.target='_blank';help.rel='noopener noreferrer';help.setAttribute('aria-label',`Pedir ayuda sobre ${product.name} por WhatsApp`);
-      actions.append(button,help);card.append(actions);grid.append(card);
+      actions.append(button,help);card.append(actions);fragment.append(card);
     }
+    grid.replaceChildren(fragment);
     $('#store-empty').hidden=list.length!==0;
   }
   function renderCart() {
@@ -86,19 +90,42 @@
     $('#store-whatsapp-checkout').href='https://wa.me/525566147938?text='+encodeURIComponent(msg);
     const cardButton = $('#store-card-checkout');
     cardButton.disabled = products.length === 0;
-    cardButton.textContent = 'Preparar importe del pedido ↗';
+    cardButton.textContent = '✦ Finalizar compra ↗';
     cardButton.title = 'Consultar y preparar importe para Mercado Pago';
     $('#store-checkout-status').textContent = products.length ? 'Confirma que ExeptedTech autorice el pedido antes de pagar. El enlace de monto abierto requiere verificación manual.' : 'Agrega productos para preparar tu consulta.';
   }
   function adjust(sku,d){const next=(cart[sku]||0)+d;if(next<1) delete cart[sku];else if(next<=10) cart[sku]=next;persist();renderCart();}
-  function cartOpen(){previousFocus=document.activeElement;overlay.hidden=false;document.body.classList.add('modal-open');overlay.querySelector('[data-cart-close]')?.focus();}
+  function cartOpen(){
+    previousFocus=document.activeElement;
+    const toast=document.getElementById('xt-cart-toast');if(toast)toast.hidden=true;
+    overlay.hidden=false;document.body.classList.add('modal-open');
+    const panel=overlay.querySelector('.store-cart-panel');if(panel)panel.scrollTop=0;
+    overlay.querySelector('button[data-cart-close]')?.focus({preventScroll:true});
+  }
   function cartClose(){overlay.hidden=true;document.body.classList.remove('modal-open');previousFocus?.focus();}
   $('#open-cart')?.addEventListener('click',cartOpen);
   $('#dashboard-open-cart')?.addEventListener('click',cartOpen);
   overlay.querySelectorAll('[data-cart-close]').forEach(button=>button.addEventListener('click',cartClose));
-  document.addEventListener('keydown',event=>{if(event.key==='Escape'&&!overlay.hidden)cartClose();});
-  $('#store-search').addEventListener('input',renderStore);
-  $('#store-category').addEventListener('change',renderStore);
+  document.addEventListener('keydown',event=>{
+    if(overlay.hidden)return;
+    if(event.key==='Escape'){event.preventDefault();cartClose();return;}
+    if(event.key==='Tab'){
+      const items=[...overlay.querySelectorAll('button:not([disabled]),a[href],input,select')].filter(el=>el.getClientRects().length);
+      if(!items.length)return;
+      const first=items[0],last=items[items.length-1];
+      if(event.shiftKey&&document.activeElement===first){event.preventDefault();last.focus();}
+      else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first.focus();}
+    }
+  });
+  let catalogSearchTimer=0;
+  $('#store-search').addEventListener('input',()=>{
+    clearTimeout(catalogSearchTimer);
+    catalogSearchTimer=setTimeout(renderStore,110);
+  });
+  $('#store-category').addEventListener('change',()=>{
+    clearTimeout(catalogSearchTimer);
+    renderStore();
+  });
   const categories=[...new Set(catalog.map(p=>p.category))];
   for(const category of categories) {const option=make('option','',category);option.value=category;$('#store-category').append(option);}
   function feedback(message,isError=false){const box=$('#dashboard-feedback');box.textContent=message;box.dataset.kind=isError?'error':'success';}

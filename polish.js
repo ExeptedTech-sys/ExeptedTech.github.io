@@ -42,6 +42,16 @@
     tab?.click();
     $('.auth-modal-close', authPanel)?.focus();
   };
+  // Después de un inicio de sesión válido, cierra el modal para que Mi cuenta sea accesible.
+  document.addEventListener('exepted:auth',event=>{
+    if(event.detail?.session && authOverlay && !authOverlay.hidden){
+      closePortal();
+      queueMicrotask(()=>{
+        const target=document.getElementById('xt-account-toggle');
+        if(target && !target.closest('[hidden]'))target.focus({preventScroll:true});
+      });
+    }
+  });
   $$('[data-open-auth-modal]').forEach(el => el.addEventListener('click', e => {
     e.preventDefault();
     openPortal(el.getAttribute('data-open-auth-modal') || 'signup', el);

@@ -7,15 +7,64 @@
   const catalog = Array.isArray(window.EXEPTED_CATALOG) ? window.EXEPTED_CATALOG : [];
   let categories = {};
   try {const saved = JSON.parse(localStorage.getItem(historyKey)||'{}');if(saved && typeof saved==='object' && !Array.isArray(saved)) for(const [key,value] of Object.entries(saved).slice(0,40)) if(typeof key==='string' && Number.isSafeInteger(value) && value>0 && value<=10000) categories[key]=value;}catch{}
-  const close = () => { options.hidden=true;toggle.setAttribute('aria-expanded','false'); };
-  function go(view){close();document.getElementById('cuenta')?.scrollIntoView({behavior:'smooth'});document.dispatchEvent(new CustomEvent('exepted:'+view));}
-  toggle?.addEventListener('click',()=>{const open=options.hidden;options.hidden=!open;toggle.setAttribute('aria-expanded',String(open));});
-  document.addEventListener('click',e=>{if(!menu?.contains(e.target))close();});
-  document.addEventListener('keydown',e=>{if(e.key==='Escape')close();});
+  // Menú desplazado a body: evita clipping por blur, transform y ancho de cabecera.
+  const scrim=document.createElement('div');
+  scrim.className='xt-account-scrim';
+  scrim.hidden=true;
+  scrim.setAttribute('aria-hidden','true');
+  document.body.appendChild(scrim);
+  if(options){
+    options.classList.add('xt-popover-fixed');
+    options.setAttribute('role','group');
+    options.setAttribute('aria-label','Opciones de mi cuenta');
+    document.body.appendChild(options);
+  }
+  const isOpen=()=>Boolean(options && !options.hidden);
+  function placeMenu(){
+    if(!toggle||!options)return;
+    const bounds=toggle.getBoundingClientRect();
+    const width=Math.max(220,Math.min(window.innerWidth-24,window.innerWidth<=700?window.innerWidth-24:305));
+    const left=window.innerWidth<=700?12:Math.max(12,Math.min(bounds.right-width,window.innerWidth-width-12));
+    const top=Math.max(8,Math.round(bounds.bottom+9));
+    const viewportHeight=window.visualViewport?.height||window.innerHeight;
+    const height=Math.max(110,Math.round(viewportHeight-top-14));
+    options.style.setProperty('--xt-pop-width',width+'px');
+    options.style.setProperty('--xt-pop-left',Math.round(left)+'px');
+    options.style.setProperty('--xt-pop-top',top+'px');
+    options.style.setProperty('--xt-pop-height',height+'px');
+  }
+  const close=()=>{
+    if(!options)return;
+    options.hidden=true;
+    scrim.hidden=true;
+    toggle?.setAttribute('aria-expanded','false');
+    document.body.classList.remove('xt-account-open');
+  };
+  function openMenu(){
+    if(!options)return;
+    document.getElementById('nav')?.classList.remove('open');
+    document.getElementById('menu')?.setAttribute('aria-expanded','false');
+    placeMenu();
+    options.hidden=false;
+    scrim.hidden=false;
+    toggle?.setAttribute('aria-expanded','true');
+    document.body.classList.add('xt-account-open');
+  }
+  function go(view){close();document.getElementById('cuenta')?.scrollIntoView({behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});document.dispatchEvent(new CustomEvent('exepted:'+view));}
+  toggle?.addEventListener('click',()=>isOpen()?close():openMenu());
+  scrim.addEventListener('click',close);
+  document.addEventListener('click',e=>{if(isOpen()&&!menu?.contains(e.target)&&!options?.contains(e.target))close();});
+  document.addEventListener('keydown',e=>{
+    if(e.key==='Escape'&&isOpen()){close();toggle?.focus({preventScroll:true});}
+    if(isOpen()&&e.key==='ArrowDown'&&e.target===toggle){e.preventDefault();options.querySelector('button')?.focus({preventScroll:true});}
+  });
+  window.addEventListener('resize',()=>{if(isOpen())placeMenu();},{passive:true});
+  window.visualViewport?.addEventListener('resize',()=>{if(isOpen())placeMenu();},{passive:true});
   const source = $('nav-login');const signIn = document.querySelector('.header-auth-cta');
   document.addEventListener('exepted:auth',e=>{
     const user=e.detail?.session?.user;const loggedIn=Boolean(user);
     menu.hidden=!loggedIn;
+    if(!loggedIn)close();
     if(source)source.hidden=loggedIn;
     if(signIn)signIn.hidden=loggedIn;
     if(loggedIn){const nick=String(user.user_metadata?.nickname||user.email?.split('@')[0]||'Cliente').slice(0,30);$('xt-account-nick').textContent=nick;$('xt-account-greeting').textContent=`Hola, ${nick}`;}else close();

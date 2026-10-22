@@ -7,10 +7,26 @@ function render(filter='all') { grid.innerHTML=PRODUCTS.filter(p=>filter==='all'
 function bindWhatsApp(){document.querySelectorAll('.wa').forEach(a=>{a.href=`https://wa.me/${PHONE}?text=${encodeURIComponent(`Hola Exepted, me interesa ${a.dataset.product}. ¿Me podrías dar precio y disponibilidad? Solicito una cotización.`)}`;a.target='_blank';a.rel='noopener noreferrer'});}
 document.querySelectorAll('.filters button').forEach(b=>b.addEventListener('click',()=>{document.querySelector('.filters .active').classList.remove('active');b.classList.add('active');document.querySelectorAll('.filters button').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));render(b.dataset.filter)}));
 const menu=document.querySelector('#menu'),nav=document.querySelector('#nav');menu.addEventListener('click',()=>{const open=nav.classList.toggle('open');menu.setAttribute('aria-expanded',open)});nav.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{nav.classList.remove('open');menu.setAttribute('aria-expanded','false')}));
-const observer=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('shown')}),{threshold:.1});document.querySelectorAll('.reveal').forEach(e=>observer.observe(e));
+const observer=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('shown');observer.unobserve(e.target)}}),{threshold:.05});document.querySelectorAll('.reveal').forEach(e=>observer.observe(e));
 document.querySelector('#year').textContent=new Date().getFullYear();
-addEventListener('scroll',()=>document.querySelector('#header').classList.toggle('scrolled',scrollY>24),{passive:true});render();
+render();
 
 /* Bank-data copy is handled with validated, labeled controls in next.js. */
-addEventListener('scroll',()=>{const total=document.documentElement.scrollHeight-innerHeight;document.querySelector('.reading-progress').style.width=(total>0?scrollY/total*100:0)+'%';},{passive:true});
+// Un solo trabajo visual por fotograma en lugar de dos listeners por scroll.
+const pageHeader=document.querySelector('#header');
+const readingProgress=document.querySelector('.reading-progress');
+let scrollTick=false;
+function syncViewport(){
+  scrollTick=false;
+  const top=window.scrollY;
+  pageHeader?.classList.toggle('scrolled',top>24);
+  if(readingProgress){
+    const total=document.documentElement.scrollHeight-window.innerHeight;
+    readingProgress.style.transform='scaleX('+(total>0?Math.min(1,top/total):0)+')';
+  }
+}
+function queueViewport(){if(!scrollTick){scrollTick=true;requestAnimationFrame(syncViewport);}}
+addEventListener('scroll',queueViewport,{passive:true});
+addEventListener('resize',queueViewport,{passive:true});
+queueViewport();
 document.querySelectorAll('.filters button').forEach(b=>b.setAttribute('aria-pressed',String(b.classList.contains('active'))));

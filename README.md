@@ -1,3 +1,7 @@
+# Actualización móvil v4
+
+Revisa `ACTUALIZACION_MOVIL_V4.md` para cambios, pruebas y publicación en GitHub.
+
 # ExeptedTech Ultimate — GitHub Pages
 
 Actualización: 22 de octubre de 2026. Sitio público HTML/CSS/JS con portafolio, servicios web, extras, catálogo, carrito y pagos manuales por Mercado Pago.
