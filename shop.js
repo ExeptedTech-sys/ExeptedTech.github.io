@@ -42,6 +42,7 @@
       const meta = make('div','store-card-meta');
       meta.append(make('span','',product.category),make('span','',product.duration));
       card.append(meta,make('h3','',product.name),make('p','',product.description));
+      card.addEventListener('click', event=>{if(event.target.closest('button,a'))return;document.dispatchEvent(new CustomEvent('exepted:product-view',{detail:{sku:product.sku,category:product.category}}));});
       const price=make('div','store-price',product.priceCents!==null?pesos(product.priceCents):'Consultar');
       price.append(make('small','',product.priceCents!==null?' MXN':' · precio por confirmar'));
       card.append(price);
@@ -49,13 +50,14 @@
       const button = make('button','',(product.priceCents === null || product.restricted) ? 'Solicitar información ↗' : 'Agregar al carrito +');
       button.type='button';
       button.addEventListener('click',()=>{
+        document.dispatchEvent(new CustomEvent('exepted:product-view',{detail:{sku:product.sku,category:product.category}}));
         if (product.priceCents===null || product.restricted) {
           window.open('https://wa.me/525566147938?text='+encodeURIComponent(`Hola ExeptedTech, quiero cotizar ${product.name}. ¿Tienen disponibilidad?`),'_blank','noopener,noreferrer');
           return;
         }
         if((cart[product.sku]||0)>=10) return;
         cart[product.sku]=(cart[product.sku]||0)+1;
-        persist();renderCart();
+        persist();renderCart();document.dispatchEvent(new CustomEvent('exepted:cart-added'));
         button.textContent='Agregado ✓';
         setTimeout(()=>button.textContent='Agregar al carrito +',950);
       });
@@ -132,7 +134,7 @@
     e.preventDefault();const form=e.currentTarget;const nick=form.elements.nickname.value.trim();
     if(nick.length<2) return feedback('Introduce un apodo de al menos dos caracteres.',true);
     const button=form.querySelector('button');button.disabled=true;
-    try{await authPut({data:{nickname:nick}});$('#welcome').textContent=`Hola, ${nick}.`;feedback('Perfil actualizado.');}
+    try{await authPut({data:{nickname:nick}});$('#welcome').textContent=`Hola, ${nick}.`;feedback('Perfil actualizado.');document.dispatchEvent(new CustomEvent('exepted:profile-update',{detail:{nickname:nick}}));}
     catch(err){feedback(err.message,true);}finally{button.disabled=false;}
   });
   $('#password-update-form')?.addEventListener('submit',async e=>{
@@ -164,8 +166,8 @@
       amount.value = (sum() / 100).toFixed(2);
       amount.dispatchEvent(new Event('input', {bubbles: true}));
     }
-    cartClose();
-    document.getElementById('pagos')?.scrollIntoView({behavior:'smooth',block:'start'});
+    document.getElementById('xt-payment-chooser').hidden=false;
+    document.getElementById('xt-payment-chooser').scrollIntoView({behavior:'smooth',block:'nearest'});
     const status=document.getElementById('mp-form-status');
     if(status) status.textContent='Importe preparado. Antes de pagar, confirma disponibilidad y autorización del pedido por WhatsApp. La compra solo se verificará en tu cuenta de Mercado Pago.';
   });
@@ -173,7 +175,13 @@
     const items=Array.isArray(event.detail?.skus)?event.detail.skus:[event.detail?.sku];
     let updated=false;
     for(const sku of items){const p=bySku.get(sku);if(p && !p.restricted && typeof p.priceCents === "number" && (cart[sku]||0)<10){cart[sku]=(cart[sku]||0)+1;updated=true;}}
-    if(updated){persist();renderCart();cartOpen();} 
+    if(updated){persist();renderCart();document.dispatchEvent(new CustomEvent('exepted:cart-added'));} 
   });
+  document.addEventListener('exepted:open-cart', cartOpen);
+  document.addEventListener('exepted:close-cart',()=>{if(!overlay.hidden)cartClose();});
+  document.addEventListener('exepted:orders',()=>{dashboardTab('orders');loadOrders();});
+  document.addEventListener('exepted:recommend',()=>dashboardTab('recommend'));
+  document.addEventListener('exepted:settings',()=>dashboardTab('settings'));
+  document.addEventListener('exepted:catalog-view',renderStore);
   renderStore();renderCart();
 })();

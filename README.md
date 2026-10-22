@@ -1,6 +1,6 @@
 # ExeptedTech Ultimate — GitHub Pages
 
-Actualización: 17 de octubre de 2026. Sitio público HTML/CSS/JS con portafolio, servicios web, extras, catálogo, carrito y pagos manuales por Mercado Pago.
+Actualización: 22 de octubre de 2026. Sitio público HTML/CSS/JS con portafolio, servicios web, extras, catálogo, carrito y pagos manuales por Mercado Pago.
 
 ## Contenido
 - 4 paquetes web: Personal bajo cotización, Tech Business $1,800 (antes $2,200), Tech Business Plus $2,800 (antes $3,000), Luvia Corp VIP $4,800 (antes $5,000).
@@ -21,3 +21,11 @@ Actualización: 17 de octubre de 2026. Sitio público HTML/CSS/JS con portafolio
 **Los archivos del ZIP son públicos. Nunca publiques el access token de Mercado Pago, contraseña SMTP de Resend, service_role de Supabase ni tokens secretos.**
 
 Consulta `REVISION_ANTES_DE_PUBLICAR.md` y `AUDITORIA_FINAL.md`.
+
+
+## Actualización neón y cuentas bancarias · 22 de octubre de 2026
+Se implementaron tarjetas de donaciones Mercado Pago (amarillo neón) y Nu (morado neón), con botones para copiar CLABE y nombre de titular, verificación visual, mejoras de interfaz y optimización móvil. Se corrigió el evento del cambio de contraseña por OTP, el cierre del carrito al pasar a transferencia y el cotizador de productos. **Nu también está disponible para pagar compras previamente confirmadas**, además de las aportaciones voluntarias. Consultar `PRUEBAS_Y_PUBLICACION_FINAL.md` para pruebas realizadas, límites y pasos de publicación.
+
+## Actualización pagos Nu · 22 de octubre de 2026
+
+Se habilita transferencia SPEI a **Nu México** (CLABE `638180010114203813`, titular **Iñaki A Reyo**) también en **Pagos y compras** y en la selección de pago del carrito. Se mantienen Mercado Pago y el apartado de donaciones. La confirmación y conciliación de abonos son manuales; ninguna transferencia se certifica automáticamente por la web.

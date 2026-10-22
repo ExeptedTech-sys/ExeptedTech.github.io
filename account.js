@@ -254,7 +254,7 @@
           email, password,
           data: {
             full_name: authForm.elements.name.value.trim(), nickname: authForm.elements.nickname.value.trim(),
-            privacy_version: '2026-10-16', privacy_accepted_at: new Date().toISOString()
+            privacy_version: '2026-10-22', privacy_accepted_at: new Date().toISOString()
           },
           gotrue_meta_security: { captcha_token: token }
         });
@@ -381,6 +381,16 @@
     status('Sesión cerrada. Los datos de acceso ya no están en esta página.', 'success');
   });
 
+  document.addEventListener('exepted:secure-password-change', () => {
+    if (!session?.user?.email || !configured()) return;
+    const email = session.user.email;
+    // Reutilizar recuperación por OTP; no admitir el cambio con la sesión sola.
+    setMode('login');
+    authForm.elements.email.value = email;
+    status('Confirma la solicitud de código de seguridad en el formulario. Usaremos tu correo de cuenta.', 'info');
+    document.getElementById('auth-panel')?.scrollIntoView({behavior:'smooth',block:'center'});
+    document.getElementById('recover')?.focus();
+  });
   window.EXEPTED_AUTH = Object.freeze({getSession:()=>session});
   setMode('signup');
   loadCaptcha();

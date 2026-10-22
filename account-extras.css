@@ -1,0 +1,18 @@
+/* Complementos de ExeptedTech; paleta oscura y acentos neón. */
+.xt-account-menu{position:relative;z-index:90;flex-shrink:0}
+.xt-account-menu[hidden],.xt-account-options[hidden],.xt-cart-toast[hidden],.xt-payment-chooser[hidden]{display:none!important}
+.xt-account-menu>button{border:1px solid rgba(0,255,224,.45);border-radius:100px;padding:12px 16px;background:linear-gradient(125deg,#121c34,#062e38);color:#e9fffd;font-weight:800;cursor:pointer;box-shadow:0 0 18px rgba(0,255,213,.16)}
+#xt-account-nick{color:#60ffe2;margin-left:5px}
+.xt-account-options{position:absolute;right:0;top:calc(100% + 10px);width:min(305px,88vw);padding:12px;background:#091427;border:1px solid #1e7b89;border-radius:18px;box-shadow:0 22px 65px rgba(0,0,0,.6);display:grid;gap:4px;max-height:75vh;overflow:auto}
+.xt-account-options>strong{color:#72ffeb;padding:12px 10px;overflow-wrap:anywhere}
+.xt-account-options button{background:transparent;border:0;color:#f1f8ff;padding:12px;border-radius:10px;text-align:left;cursor:pointer;font:inherit}
+.xt-account-options button:hover,.xt-account-options button:focus-visible{background:#163f50;outline:2px solid #4de3dd}
+.xt-cart-toast{position:fixed;bottom:calc(22px + env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);z-index:9999;background:#071d27;color:white;border:1px solid #48edcf;border-radius:18px;padding:14px 19px;display:flex;align-items:center;gap:17px;box-shadow:0 0 30px rgba(0,252,220,.35);width:max-content;max-width:calc(100vw - 30px)}
+.xt-cart-toast button,.xt-recommend-card button{background:#67ffe4;color:#051622;font-weight:800;border:0;border-radius:10px;padding:10px 12px;cursor:pointer}
+.xt-recommend-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(220px,100%),1fr));gap:12px;padding:12px 0}
+.xt-recommend-card{display:flex;flex-direction:column;gap:11px;background:#0e2135;border:1px solid #3b7385;border-radius:14px;padding:16px;color:white}
+.xt-recommend-card span{color:#75ffe6}.xt-payment-chooser{border:1px solid #47eddc;background:linear-gradient(135deg,#07182e,#0c3140);padding:15px;border-radius:15px;margin:15px 0;display:grid;gap:12px;color:#f3ffff}.xt-payment-chooser h3{margin:0;color:#7dffdf}
+.xt-payment-option{padding:15px;border-radius:12px;background:#122d40;color:white;border:1px solid #57b9d1;text-decoration:none;font-weight:800;display:block}
+.xt-payment-option:hover{background:#245269}.store-checkout-primary{background:linear-gradient(110deg,#31ffcc,#4cb9ff,#aa66ff)!important;color:#061527!important;box-shadow:0 0 25px rgba(45,255,210,.42)!important;font-weight:900!important}
+@media(max-width:760px){.xt-account-menu{margin-left:auto}.xt-account-menu>button{padding:9px 11px;font-size:12px}.xt-account-options{right:0}.xt-cart-toast{flex-direction:column;gap:9px;text-align:center;width:calc(100vw - 35px)}.xt-account-menu>button #xt-account-nick{max-width:82px;display:inline-block;overflow:hidden;text-overflow:ellipsis;vertical-align:middle}}
+.header-auth-cta[hidden],#nav-login[hidden]{display:none!important}

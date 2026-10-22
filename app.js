@@ -11,6 +11,6 @@ const observer=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e
 document.querySelector('#year').textContent=new Date().getFullYear();
 addEventListener('scroll',()=>document.querySelector('#header').classList.toggle('scrolled',scrollY>24),{passive:true});render();
 
-document.querySelectorAll('.copy-clabe').forEach(button=>button.addEventListener('click',async()=>{try{await navigator.clipboard.writeText('722969011686374403');button.textContent='CLABE copiada ✓';}catch{button.textContent='Selecciona y copia la CLABE que aparece arriba';}}));
+/* Bank-data copy is handled with validated, labeled controls in next.js. */
 addEventListener('scroll',()=>{const total=document.documentElement.scrollHeight-innerHeight;document.querySelector('.reading-progress').style.width=(total>0?scrollY/total*100:0)+'%';},{passive:true});
 document.querySelectorAll('.filters button').forEach(b=>b.setAttribute('aria-pressed',String(b.classList.contains('active'))));
