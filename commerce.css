@@ -1,0 +1,7 @@
+/* Opcional: integra checkout, seguimiento y soporte sin alterar el estilo base. */
+.commerce-primary,.commerce-action{border:1px solid #50c7ff;background:#113452;color:#f5fbff;border-radius:12px;font-weight:700;padding:13px 16px;cursor:pointer;width:100%;min-height:44px;margin:8px 0}
+.commerce-primary:hover,.commerce-action:hover{background:#18567e}.commerce-primary:disabled,.commerce-action:disabled{opacity:.55;cursor:wait}
+.commerce-panel{border:1px solid rgba(115,191,249,.35);border-radius:16px;padding:16px;margin-top:22px;max-width:100%}
+.commerce-panel h4{margin:14px 0 8px}.commerce-panel input,.commerce-panel textarea{display:block;width:100%;max-width:100%;box-sizing:border-box;border:1px solid #466079;background:#081527;color:#fff;padding:12px;margin:9px 0;border-radius:9px;font:inherit}
+.commerce-panel textarea{min-height:100px;resize:vertical}.commerce-entry{padding:12px 0;border-bottom:1px solid rgba(145,177,212,.25)}.commerce-entry p{margin:6px 0}.commerce-entry small,.commerce-note{color:#a9c5db;font-size:.9rem}
+.commerce-link{color:#80d8ff;background:none;border:0;text-decoration:underline;font:inherit;cursor:pointer;padding:8px 0}.commerce-history{border-left:3px solid #65c4ff;padding:4px 10px;margin:8px 0}

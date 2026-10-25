@@ -5,6 +5,8 @@ window.EXEPTED_CONFIG = Object.freeze({
   supabaseAnonKey: 'sb_publishable_iWJGEfOHWijAEbZxppsjRQ_EMrVCpnh',
   // Requiere configurar la Secret Key del widget en Supabase y SMTP operativo.
   registrationEnabled: true,
+  // Activar SOLO cuando se haya desplegado el backend, revisado el catálogo y probado el cobro.
+  commerceEnabled: false,
   // Site Key pública de Turnstile; no contiene la clave secreta.
   turnstileSiteKey: '0x4AAAAAAFYxb2xDzYnW3nHF'
 });

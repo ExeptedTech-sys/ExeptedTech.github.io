@@ -89,10 +89,13 @@
     const msg= products.length ? `Hola ExeptedTech, quisiera consultar la disponibilidad, licencias y forma de pago de este pedido:\n${products.map(p=>`• ${p.name} × ${p.q} = ${pesos(p.priceCents*p.q)}`).join('\n')}\nTotal de referencia publicado: ${pesos(sum())}. ¿Está autorizado y disponible el pedido, y cuáles son sus condiciones de entrega?` : 'Hola ExeptedTech, quiero información de sus productos.';
     $('#store-whatsapp-checkout').href='https://wa.me/525566147938?text='+encodeURIComponent(msg);
     const cardButton = $('#store-card-checkout');
-    cardButton.disabled = products.length === 0;
+    cardButton.disabled = config.commerceEnabled===true || products.length === 0;
+    cardButton.hidden = config.commerceEnabled===true;
     cardButton.textContent = '✦ Finalizar compra ↗';
     cardButton.title = 'Consultar y preparar importe para Mercado Pago';
-    $('#store-checkout-status').textContent = products.length ? 'Confirma que ExeptedTech autorice el pedido antes de pagar. El enlace de monto abierto requiere verificación manual.' : 'Agrega productos para preparar tu consulta.';
+    $('#store-checkout-status').textContent = config.commerceEnabled===true
+      ? 'Paga desde el botón seguro de Mercado Pago para que tu pedido pueda verificarse automáticamente.'
+      : products.length ? 'Confirma que ExeptedTech autorice el pedido antes de pagar. El enlace de monto abierto requiere verificación manual.' : 'Agrega productos para preparar tu consulta.';
   }
   function adjust(sku,d){const next=(cart[sku]||0)+d;if(next<1) delete cart[sku];else if(next<=10) cart[sku]=next;persist();renderCart();}
   function cartOpen(){
@@ -176,7 +179,8 @@
     const list=$('#orders-list');list.textContent='Consultando pedidos…';
     if(!session?.access_token) return list.textContent='Inicia sesión para ver tus pedidos.';
     try{
-      const response=await fetch(`${config.supabaseUrl}/rest/v1/shop_orders?select=id,status,total_cents,created_at&order=created_at.desc&limit=20`,{headers:{apikey:config.supabaseAnonKey,Authorization:`Bearer ${session.access_token}`}});
+      const table = config.commerceEnabled ? 'commerce_orders' : 'shop_orders';
+      const response=await fetch(`${config.supabaseUrl}/rest/v1/${table}?select=id,status,total_cents,created_at&order=created_at.desc&limit=20`,{headers:{apikey:config.supabaseAnonKey,Authorization:`Bearer ${session.access_token}`}});
       if(!response.ok) throw new Error('Pedidos aún no configurados en Supabase o sesión expirada.');
       const data=await response.json();list.replaceChildren();
       if(!data.length){list.textContent='Aún no tienes pedidos registrados.';return;}
@@ -185,7 +189,7 @@
   }
   $('#orders-refresh')?.addEventListener('click',loadOrders);
   $('#store-card-checkout')?.addEventListener('click', () => {
-    if (!lines().length) return;
+    if (!lines().length || config.commerceEnabled === true) return;
     const concept = $('#mp-quote-concept');
     const amount = $('#mp-quote-amount');
     if (concept && amount) {
