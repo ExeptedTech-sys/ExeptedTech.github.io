@@ -1,15 +1,10 @@
+/* ExeptedTech v6 - navegación única y scroll ligero. */
 const PHONE='525566147938';
-const PRODUCTS=[
-['Spotify Premium','streaming','Música sin interrupciones','SP'],['Apple Music','streaming','Tu música favorita','AM'],['Amazon Music','streaming','Millones de canciones','AZ'],['Deezer','streaming','Audio y playlists','DZ'],['Netflix','streaming','Series y películas','NF'],['Disney+','streaming','Disney, Pixar y más','D+'],['ViX Premium','streaming','Contenido en español','VX'],['Prime Video','streaming','Películas y series','PV'],['HBO Max','streaming','Historias que impactan','MX'],['ChatGPT','ia','IA para crear y trabajar','GPT'],['Gemini','ia','Asistente de Google','GM'],['Claude','ia','IA para análisis y texto','CL'],['Canción personalizada con IA','ia','Tu historia convertida en música','♫'],['Steam Games','juegos','Juegos para PC','ST'],['Juegos Android','juegos','Gaming en tu móvil','AN'],['ROMs / Emulación legal','juegos','Ayuda con copias propias','RE'],['Juegos Xbox','juegos','Catálogo para consola','XB'],['Xbox Game Pass','juegos','Membresía gaming','GP'],['Nintendo Switch Online','juegos','Juego y servicios online','NS'],['Robux','gift','Créditos para Roblox','RX'],['Diamantes Free Fire','gift','Créditos en el juego','FF'],['Fortnite Crew','gift','Membresía mensual','FC'],['Pavos Fortnite','gift','Moneda del juego','VB']
-];
-const grid=document.querySelector('#products');
-function render(filter='all') { grid.innerHTML=PRODUCTS.filter(p=>filter==='all'||p[1]===filter).map((p,i)=>`<article class="product-card reveal shown" style="--delay:${(i%8)*35}ms"><div class="product-icon ${p[1]}">${p[3]}</div><small>${p[1]==='gift'?'CRÉDITOS':p[1].toUpperCase()}</small><h3>${p[0]}</h3><p>${p[2]}</p><a class="wa" data-product="${p[0]}" href="#">Obtener cotización <span>↗</span></a></article>`).join(''); bindWhatsApp(); }
-function bindWhatsApp(){document.querySelectorAll('.wa').forEach(a=>{a.href=`https://wa.me/${PHONE}?text=${encodeURIComponent(`Hola Exepted, me interesa ${a.dataset.product}. ¿Me podrías dar precio y disponibilidad? Solicito una cotización.`)}`;a.target='_blank';a.rel='noopener noreferrer'});}
-document.querySelectorAll('.filters button').forEach(b=>b.addEventListener('click',()=>{document.querySelector('.filters .active').classList.remove('active');b.classList.add('active');document.querySelectorAll('.filters button').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));render(b.dataset.filter)}));
+function bindWhatsApp(){document.querySelectorAll('a.wa').forEach(a=>{const name=a.dataset.product||'información de servicios';a.href=`https://wa.me/${PHONE}?text=${encodeURIComponent(`Hola ExeptedTech, me interesa ${name}. ¿Me pueden ayudar?`)}`;a.target='_blank';a.rel='noopener noreferrer';});}
+bindWhatsApp();
 const menu=document.querySelector('#menu'),nav=document.querySelector('#nav');menu.addEventListener('click',()=>{const open=nav.classList.toggle('open');menu.setAttribute('aria-expanded',open)});nav.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{nav.classList.remove('open');menu.setAttribute('aria-expanded','false')}));
 const observer=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('shown');observer.unobserve(e.target)}}),{threshold:.05});document.querySelectorAll('.reveal').forEach(e=>observer.observe(e));
 document.querySelector('#year').textContent=new Date().getFullYear();
-render();
 
 /* Bank-data copy is handled with validated, labeled controls in next.js. */
 // Un solo trabajo visual por fotograma en lugar de dos listeners por scroll.
@@ -29,4 +24,4 @@ function queueViewport(){if(!scrollTick){scrollTick=true;requestAnimationFrame(s
 addEventListener('scroll',queueViewport,{passive:true});
 addEventListener('resize',queueViewport,{passive:true});
 queueViewport();
-document.querySelectorAll('.filters button').forEach(b=>b.setAttribute('aria-pressed',String(b.classList.contains('active'))));
+

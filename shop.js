@@ -20,7 +20,7 @@
   try {
     const saved = JSON.parse(localStorage.getItem(cartKey) || '{}');
     if (saved && typeof saved === 'object') for (const [sku,q] of Object.entries(saved)) {
-      if (bySku.has(sku) && !bySku.get(sku).restricted && typeof bySku.get(sku).priceCents === "number" && validQ(q)) cart[sku] = q;
+      if (bySku.has(sku) && Number.isSafeInteger(bySku.get(sku).priceCents) && bySku.get(sku).priceCents > 0 && validQ(q)) cart[sku] = q;
     }
   } catch { cart = {}; }
   const persist = () => {
@@ -50,11 +50,13 @@
       price.append(make('small','',product.priceCents!==null?' MXN':' · precio por confirmar'));
       card.append(price);
       const actions=make('div','xt-store-actions');
-      const button = make('button','',(product.priceCents === null || product.restricted) ? 'Solicitar información ↗' : 'Agregar al carrito +');
+      const hasPrice=Number.isSafeInteger(product.priceCents) && product.priceCents>0;
+      if (product.restricted) {const notice=make('small','xt-review-tag','Venta sujeta a validación del proveedor');card.append(notice);}
+      const button = make('button','',hasPrice ? 'Agregar al carrito +' : 'Solicitar cotización ↗');
       button.type='button';
       button.addEventListener('click',()=>{
         document.dispatchEvent(new CustomEvent('exepted:product-view',{detail:{sku:product.sku,category:product.category}}));
-        if (product.priceCents===null || product.restricted) {
+        if (!hasPrice) {
           window.open('https://wa.me/525566147938?text='+encodeURIComponent(`Hola ExeptedTech, quiero cotizar ${product.name}. ¿Tienen disponibilidad?`),'_blank','noopener,noreferrer');
           return;
         }
@@ -79,6 +81,7 @@
     for(const p of products) {
       const line=make('article','store-cart-line');
       const description=make('div');description.append(make('h3','',p.name),make('small','',`${pesos(p.priceCents)} × ${p.q}`));
+      if(p.restricted)description.append(make('small','xt-review-tag','Requiere validación comercial antes de pagar'));
       const actions=make('div','store-cart-line-actions');
       const minus=make('button','', '−');minus.type='button';minus.setAttribute('aria-label',`Quitar una unidad de ${p.name}`);
       const counter=make('output','',p.q);
@@ -88,14 +91,10 @@
     }
     const msg= products.length ? `Hola ExeptedTech, quisiera consultar la disponibilidad, licencias y forma de pago de este pedido:\n${products.map(p=>`• ${p.name} × ${p.q} = ${pesos(p.priceCents*p.q)}`).join('\n')}\nTotal de referencia publicado: ${pesos(sum())}. ¿Está autorizado y disponible el pedido, y cuáles son sus condiciones de entrega?` : 'Hola ExeptedTech, quiero información de sus productos.';
     $('#store-whatsapp-checkout').href='https://wa.me/525566147938?text='+encodeURIComponent(msg);
-    const cardButton = $('#store-card-checkout');
-    cardButton.disabled = config.commerceEnabled===true || products.length === 0;
-    cardButton.hidden = config.commerceEnabled===true;
-    cardButton.textContent = '✦ Finalizar compra ↗';
-    cardButton.title = 'Consultar y preparar importe para Mercado Pago';
+    
     $('#store-checkout-status').textContent = config.commerceEnabled===true
-      ? 'Paga desde el botón seguro de Mercado Pago para que tu pedido pueda verificarse automáticamente.'
-      : products.length ? 'Confirma que ExeptedTech autorice el pedido antes de pagar. El enlace de monto abierto requiere verificación manual.' : 'Agrega productos para preparar tu consulta.';
+      ? 'El cobro seguro solo permite productos autorizados en Supabase. Para los demás, consulta por WhatsApp.'
+      : products.length ? 'Carrito preparado. Para confirmar disponibilidad o licencias, envía tu consulta por WhatsApp; no hagas depósitos por adelantado.' : 'Agrega productos para preparar tu consulta.';
   }
   function adjust(sku,d){const next=(cart[sku]||0)+d;if(next<1) delete cart[sku];else if(next<=10) cart[sku]=next;persist();renderCart();}
   function cartOpen(){
@@ -188,24 +187,10 @@
     } catch(err){list.textContent=err.message;}
   }
   $('#orders-refresh')?.addEventListener('click',loadOrders);
-  $('#store-card-checkout')?.addEventListener('click', () => {
-    if (!lines().length || config.commerceEnabled === true) return;
-    const concept = $('#mp-quote-concept');
-    const amount = $('#mp-quote-amount');
-    if (concept && amount) {
-      concept.value = 'Pedido de catálogo ExeptedTech — confirmar disponibilidad';
-      amount.value = (sum() / 100).toFixed(2);
-      amount.dispatchEvent(new Event('input', {bubbles: true}));
-    }
-    document.getElementById('xt-payment-chooser').hidden=false;
-    document.getElementById('xt-payment-chooser').scrollIntoView({behavior:'smooth',block:'nearest'});
-    const status=document.getElementById('mp-form-status');
-    if(status) status.textContent='Importe preparado. Antes de pagar, confirma disponibilidad y autorización del pedido por WhatsApp. La compra solo se verificará en tu cuenta de Mercado Pago.';
-  });
   document.addEventListener('exepted:add-to-cart', event => {
     const items=Array.isArray(event.detail?.skus)?event.detail.skus:[event.detail?.sku];
     let updated=false;
-    for(const sku of items){const p=bySku.get(sku);if(p && !p.restricted && typeof p.priceCents === "number" && (cart[sku]||0)<10){cart[sku]=(cart[sku]||0)+1;updated=true;}}
+    for(const sku of items){const p=bySku.get(sku);if(p && Number.isSafeInteger(p.priceCents) && p.priceCents > 0 && (cart[sku]||0)<10){cart[sku]=(cart[sku]||0)+1;updated=true;}}
     if(updated){persist();renderCart();document.dispatchEvent(new CustomEvent('exepted:cart-added'));} 
   });
   document.addEventListener('exepted:open-cart', cartOpen);

@@ -4,18 +4,9 @@
  const cfg=window.EXEPTED_CONFIG||{};
  if (!cfg.commerceEnabled || !cfg.supabaseUrl || !cfg.supabaseAnonKey) return;
  // Evitar que el cliente crea que un pago manual quedará verificado por webhook.
- const manualCheckout=document.querySelector('#store-card-checkout');
- if(manualCheckout){manualCheckout.hidden=true; manualCheckout.disabled=true;}
- const manualOptions=document.querySelector('#xt-payment-chooser');
- if(manualOptions)manualOptions.hidden=true;
+
  // Los pagos manuales de cotizaciones/transferencias permanecen en sección aparte
  // y NO actualizan el historial ni envían correos automáticos.
- const quoteForm=document.querySelector('#mp-quote-form');
- if(quoteForm){
-   const warning=document.createElement('p');warning.className='commerce-note';
-   warning.textContent='ATENCIÓN: este formulario es para cotizaciones/pagos manuales, NO confirma pedidos automáticamente ni envía el correo de compra. Para servicios habilitados usa el checkout seguro desde el carrito.';
-   quoteForm.prepend(warning);
- }
  const legacyWarning=document.querySelector('#store-cart-overlay .store-cart-foot > p');
  if(legacyWarning)legacyWarning.textContent='El pago seguro se genera con el importe verificado por nuestro servidor. Solo se pueden cobrar automáticamente servicios autorizados. Otros servicios se cotizan por WhatsApp.';
  const legacyStatus=document.querySelector('#store-checkout-status');
@@ -50,9 +41,11 @@
          throw Error('Tu carrito contiene '+unauthorized.length+' producto(s) sin pago automático autorizado. Quítalos del carrito o solicita disponibilidad por WhatsApp.');
        }
        const result=await api('/functions/v1/create-checkout',{method:'POST',body:{items}});
-       if(!/^https:\/\//.test(result.checkout_url||'')) throw Error('No recibimos un enlace de pago seguro.');
+       let paymentUrl; try {paymentUrl=new URL(result.checkout_url)} catch {throw Error('Enlace de pago inválido.')}
+       const host=paymentUrl.hostname.toLowerCase();
+       if(paymentUrl.protocol!=='https:' || !(host==='mercadopago.com.mx'||host==='www.mercadopago.com.mx'||host==='mercadopago.com'||host==='www.mercadopago.com'||host.endsWith('.mercadopago.com.mx')||host.endsWith('.mercadopago.com'))) throw Error('Enlace de cobro no pertenece a Mercado Pago.');
        status.textContent=`Pedido ${result.order_id.slice(0,8)} creado. Total verificado: ${format(result.total_cents)}. Abriendo Mercado Pago…`;
-       window.location.assign(result.checkout_url); // El WebView abre Mercado Pago en navegador externo.
+       window.location.assign(paymentUrl.href); // El WebView abre Mercado Pago en navegador externo.
      }catch(err){status.textContent=err.message||'No se pudo iniciar el cobro. No se ha efectuado ningún pago.';}
      finally{btn.disabled=false;}
    });

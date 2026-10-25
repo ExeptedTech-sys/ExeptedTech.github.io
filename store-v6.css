@@ -1,0 +1,19 @@
+/* Unificación y rendimiento ExeptedTech v6. Conserva identidad neón y reduce sobresaltos de diseño. */
+.store-grid{grid-template-columns:repeat(3,minmax(0,1fr));align-items:stretch;contain:layout style}
+.store-card{display:flex;flex-direction:column;min-width:0;overflow-wrap:anywhere;content-visibility:auto;contain-intrinsic-size:auto 310px}
+.store-card .xt-store-actions{margin-top:auto;display:grid;grid-template-columns:1fr;gap:9px;padding-top:12px}
+.store-card button,.store-card .xt-store-help{min-height:48px;width:100%;display:flex;align-items:center;justify-content:center;text-align:center}
+.xt-review-tag{display:inline-flex;align-self:flex-start;color:#f7dda8;background:rgba(220,140,35,.10);border:1px solid rgba(252,198,99,.30);padding:5px 9px;border-radius:8px;font:600 11px/1.5 inherit;letter-spacing:0}
+.store-cart-line .xt-review-tag{margin-top:6px}
+.store-card:focus-within{outline:2px solid #8de9ff;outline-offset:2px}
+.xt-steps-section{background:radial-gradient(circle at 80% 10%,rgba(73,175,241,.10),transparent 40%)}
+.xt-purchase-guide{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px}
+.xt-purchase-guide article{min-width:0;border:1px solid rgba(105,213,250,.22);border-radius:18px;background:rgba(10,28,49,.75);padding:21px}
+.xt-purchase-guide strong{color:#c3f8ff}.xt-purchase-guide p,.xt-purchase-legal{color:#a8cadb;font-size:13px;line-height:1.7}
+.xt-purchase-legal{margin:20px 0}.xt-purchase-legal a{color:#9fefff}
+.store-toolbar input,.store-toolbar select,.store-open-cart{max-width:100%}
+.store-cart-overlay[hidden]{display:none!important}
+@media(max-width:1050px){.store-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:700px){.store-grid,.xt-purchase-guide{grid-template-columns:minmax(0,1fr)}.store-grid{contain:none}.store-card{content-visibility:visible;contain:none}.store-toolbar{display:grid;grid-template-columns:1fr!important;gap:12px}.store-search-label,.store-open-cart{grid-column:auto!important}.store-card{padding:18px}.store-cart-panel{max-width:100vw}}
+@media(min-width:701px){.store-grid>.store-card{min-height:315px}}
+@media(prefers-reduced-motion:reduce){.store-card,.store-card *{animation:none!important;transition:none!important}}
