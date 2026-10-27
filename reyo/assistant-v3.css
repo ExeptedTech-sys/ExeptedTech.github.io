@@ -1,0 +1,21 @@
+/* Reyo 3.0 — widget con marca original, panel legible y control de uso. */
+#reyo-assistant-root .reyo-panel{border:1px solid #468af5a0;background:linear-gradient(145deg,#0b1630,#060e21);box-shadow:0 35px 100px #020713f0,0 0 80px #2863d728;border-radius:22px;max-height:calc(100dvh - 28px)}
+#reyo-assistant-root .reyo-head{background:linear-gradient(135deg,#0c2350,#10122e 70%,#261342);padding:13px 15px;position:relative;overflow:hidden}
+#reyo-assistant-root .reyo-head::after{content:"";position:absolute;height:2px;left:0;right:0;bottom:0;background:linear-gradient(90deg,#1bdfff,#4279ff,#ab5aff)}
+#reyo-assistant-root .reyo-mark{overflow:hidden;background:#080f22;border:1px solid #3b7de3;border-radius:12px;box-shadow:0 0 20px #2669f854;flex:none}
+#reyo-assistant-root .reyo-mark img{display:block;height:100%;width:100%;object-fit:cover}
+#reyo-assistant-root .reyo-launcher{padding:0;border:2px solid #4db5ff;border-radius:50%;width:70px;height:70px;overflow:visible;box-shadow:0 10px 34px #125beb80,0 0 0 5px #3882f41b}
+#reyo-assistant-root .reyo-launcher img{display:block;width:100%;height:100%;object-fit:cover;border-radius:50%;overflow:hidden}
+#reyo-assistant-root .reyo-launcher-glow{right:-2px;top:2px}
+#reyo-assistant-root .reyo-plan{white-space:nowrap;background:#112955;color:#9eeeff;border-color:#378ccb}
+#reyo-assistant-root .reyo-usage{display:flex;justify-content:space-between;gap:9px;padding:7px 15px;font-size:10px;border-bottom:1px solid #264269;color:#89add2;background:#0a1833}
+#reyo-assistant-root .reyo-usage strong{font-weight:650;color:#b0e7fa;text-align:right}
+#reyo-assistant-root .reyo-message--bot .reyo-message-body{background:linear-gradient(145deg,#172f57,#162444);border:1px solid #325c90}
+#reyo-assistant-root .reyo-message--user .reyo-message-body{background:linear-gradient(125deg,#2378da,#5851d8)}
+#reyo-assistant-root .reyo-send{background:linear-gradient(128deg,#338bff,#8b50ec);box-shadow:0 3px 18px #327df152}
+#reyo-assistant-root .reyo-chips{gap:9px}#reyo-assistant-root .reyo-chip{border-radius:12px;background:#142b50;border:1px solid #395f9f}
+#reyo-assistant-root .reyo-chip:hover{background:#21427a}
+#reyo-assistant-root .reyo-messages{background:radial-gradient(ellipse at 84% 11%,#2a3c8a29,transparent 65%)}
+#reyo-assistant-root .reyo-toolbar{gap:7px}#reyo-assistant-root .reyo-toolbar-label{display:none}
+@media(max-width:530px){#reyo-assistant-root{right:0;bottom:0;left:0;pointer-events:none}#reyo-assistant-root .reyo-launcher{pointer-events:auto;position:fixed;right:15px;bottom:calc(15px + env(safe-area-inset-bottom));width:62px;height:62px}#reyo-assistant-root .reyo-panel{pointer-events:auto;width:100vw;height:100dvh;max-height:100dvh;min-height:0;border-radius:0;margin:0;border:0}#reyo-assistant-root .reyo-foot{padding-bottom:calc(11px + env(safe-area-inset-bottom))}#reyo-assistant-root .reyo-head{padding-top:calc(12px + env(safe-area-inset-top))}#reyo-assistant-root .reyo-message{max-width:95%}#reyo-assistant-root .reyo-input{font-size:16px}}
+@media(prefers-reduced-motion:reduce){#reyo-assistant-root .reyo-panel{scroll-behavior:auto}}
