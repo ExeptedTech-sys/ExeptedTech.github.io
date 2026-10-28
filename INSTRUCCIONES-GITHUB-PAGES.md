@@ -1,22 +1,28 @@
-# Publicar RetroLib en tu sitio de GitHub Pages (plan gratuito)
+# ExeptedTech + RetroLib Libre 1.3.5 — publicación en GitHub Pages
 
-Tu web ya existe en `www.exeptedtech.xyz`; **no cambies su dominio ni borres su archivo CNAME**.
+## Qué está hecho
 
-## Subir los archivos
+- `index.html`: sección RetroLib **integrada** y actualizada (sin duplicados, ni enlace Drive con contraseña).
+- `retrolib.html`: página detallada de la aplicación, 10 plataformas, beneficios y disponibilidad.
+- `privacidad-retrolib.html`: política de privacidad de RetroLib con el correo ya publicado en el aviso de privacidad general del sitio.
+- `retrolib-logo.webp`: imagen de la aplicación; `retrolib-home.css`: ajustes de portada.
+- `sitemap.xml`, `terminos.html`, `polish.js` y enlaces del pie: adaptados a la nueva versión.
+- Se conservan los archivos del sitio original, incluidos `CNAME`, tienda y Reyo Assistant.
 
-1. En GitHub, abre el repositorio **que actualmente publica tu página** y ubica la carpeta desde la que se sirve el sitio (normalmente la raíz de `main` o `/docs`; compruébalo en **Settings → Pages → Build and deployment**).
-2. En esa carpeta haz **Add file → Upload files** y sube juntos `retrolib.html`, `retrolib-logo.webp` y `privacidad-retrolib.html`.
-3. Pulsa **Commit changes**. Si usas una rama protegida, crea un commit/pull request siguiendo tu flujo habitual.
-4. Para añadir la sección a la portada, abre tu `index.html` y elige **Edit** (lápiz). Copia el contenido de `SECCION-RETROLIB-PARA-TU-INDEX.html` justo antes de `</main>`; si no existe `</main>`, colócalo antes de `</body>`. Haz Commit changes.
-5. Comprueba desde un navegador sin iniciar sesión los enlaces `https://www.exeptedtech.xyz/retrolib.html` y `https://www.exeptedtech.xyz/privacidad-retrolib.html`.
-6. En Play Console → Política de privacidad, indica la URL HTTPS verificada de la política.
-7. Antes de la revisión pública, **añade un correo real de contacto para privacidad** a la política y a la ficha de Play; en esta entrega no hay correo inventado. Asegúrate de que la declaración de Datos de seguridad describa correctamente el acceso a CDN.
-8. No añadas aún un botón de descarga inventado. Cuando Google apruebe RetroLib, cambia `Estado de disponibilidad` por un enlace real de Google Play.
+## Cómo subir el sitio completo
 
-## Si no aparece tu dominio
+1. Haz una copia de seguridad del repositorio actual en GitHub antes de sustituir archivos.
+2. Abre el repositorio que actualmente publica `exeptedtech.xyz` y verifica **Settings → Pages → Build and deployment** (la fuente puede ser `main` raíz o `/docs`).
+3. **Descomprime** `EXEPTEDTECH-RETROLIB-135-GITHUB-LISTO.zip`. En la carpeta `ExeptedTech.github.io-main` están los archivos y subcarpetas listos. GitHub Pages no publica un ZIP subido como archivo.
+4. Copia / sube el **contenido de esa carpeta**, no la carpeta contenedora ni el ZIP. Conserva la misma estructura de `assets/`, `reyo/`, CSS, JS y HTML. En la web de GitHub utiliza **Add file → Upload files**, arrastrando el contenido, o utiliza Git para sincronizarlo; comprueba que se reemplazan los archivos cambiados.
+5. Haz commit y comprueba el despliegue en **Actions** o **Settings → Pages**. No borres `CNAME` ni cambies el dominio sin necesidad.
+6. Prueba estas direcciones en modo incógnito:
+   - https://www.exeptedtech.xyz/
+   - https://www.exeptedtech.xyz/retrolib.html
+   - https://www.exeptedtech.xyz/privacidad-retrolib.html
+7. Confirma que la dirección pública de privacidad coincide con la que declares en Play Console; revisa el contacto `exepteduniversity@gmail.com` antes de publicarlo.
+8. El botón a Google Play **no está habilitado** hasta que tengas la URL oficial verificada de la aplicación y esté aprobada. No distribuyas en la web el AAB ni la clave de firma `.jks`.
 
-En GitHub **Settings → Pages**, verifica la fuente de publicación (branch/folder) y en Custom domain comprueba el dominio que ya usas. No lo reconfigures sin necesidad. El hosting GitHub Pages es gratuito para repositorios públicos compatibles.
+## Comprobaciones pendientes de producción
 
-## Restricciones de contenido
-
-No publiques ROMs, BIOS, juegos comerciales ni capturas de videojuegos protegidos sin autorización. Usa capturas reales de la **interfaz** de RetroLib para la ficha de Play. Antes de anunciar compatibilidad universal, prueba cada núcleo.
+Esta actualización afecta únicamente a la web. No garantiza que Google Play apruebe la app. Revisa licencias de los núcleos, política de seguridad de datos, el AAB y la URL de privacidad. La aplicación no incluye ROMs ni BIOS.

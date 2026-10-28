@@ -1,0 +1,8 @@
+/* RetroLib 1.3.5 — ajustes aislados de la portada. Mantiene el diseño original. */
+#retrolib .retro-home-facts{display:flex;flex-wrap:wrap;gap:8px;margin:20px 0 24px}
+#retrolib .retro-home-facts span{border:1px solid rgba(96,193,252,.35);border-radius:30px;padding:7px 12px;background:rgba(24,133,198,.13);font-size:12px;font-weight:700;color:#c4f2ff}
+#retrolib .retro-art .pill{display:block;text-align:center;max-width:100%;line-height:1.7}
+#retrolib .hero-actions{flex-wrap:wrap;gap:12px}
+#retrolib .hero-actions a{white-space:normal;text-align:center}
+#retrolib .retro-story{min-width:0}
+@media(max-width:700px){#retrolib .retro-story{padding:26px 22px}#retrolib .retro-story h2{font-size:clamp(27px,8vw,38px)}#retrolib .hero-actions a{width:100%}#retrolib .retro-home-facts span{font-size:11px}}
